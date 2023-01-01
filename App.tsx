@@ -1,20 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Provider } from "react-redux";
+import Main from "./Main";
+import { store } from "./redux/store";
+import {
+  MD3LightTheme as DefaultTheme,
+  Provider as PaperProvider,
+} from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
+  const theme = {
+    ...DefaultTheme,
+    roundness: 1,
+
+    colors: {
+      ...DefaultTheme.colors,
+      primary: "#14213D",
+      secondary: "#FCA311",
+    },
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <Main />
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
