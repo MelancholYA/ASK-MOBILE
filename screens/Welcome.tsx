@@ -4,6 +4,7 @@ import { useTheme, Button } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../Main";
+import CustomText from "../componants/CustomText";
 
 const texture = require("../assets/texture.jpg");
 type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;
@@ -39,10 +40,10 @@ const Welcome = (props: Props) => {
   });
   return (
     <View style={style.container}>
-      <Text style={style.title}>ASK</Text>
-      <Text style={style.subtitle}>
+      <CustomText style={style.title}>ASK</CustomText>
+      <CustomText style={style.subtitle}>
         Find answers to your questions and make friends on the way
-      </Text>
+      </CustomText>
       <Button
         icon="login"
         mode="elevated"
@@ -53,7 +54,7 @@ const Welcome = (props: Props) => {
           marginTop: "auto",
         }}
       >
-        <Text style={{ fontFamily: "Montserrat-Medium" }}>LOGIN</Text>
+        <CustomText>LOGIN</CustomText>
       </Button>
       <Button
         icon="account-plus"
@@ -61,7 +62,7 @@ const Welcome = (props: Props) => {
         style={{ width: "70%" }}
         onPress={() => props.navigation.navigate("Register")}
       >
-        <Text style={{ fontFamily: "Montserrat-Medium" }}>REGISTER</Text>
+        <CustomText>REGISTER</CustomText>
       </Button>
       <ImageBackground
         source={texture}

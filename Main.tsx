@@ -13,13 +13,27 @@ import Login from "./screens/Login";
 import { Snackbar } from "react-native-paper";
 import useNotification from "./helpers/useNotification";
 import Register from "./screens/Register";
+import Home from "./screens/Home";
+import NavBar from "./componants/NavBar";
+import Groups from "./screens/Groups";
+import Notifications from "./screens/Notifications";
+import Messages from "./screens/Messages";
+import Profile from "./screens/Profile";
+import Question from "./screens/Question";
+import CustomScreenHeader from "./componants/CustomScreenHeader";
+import { Ipost } from "./redux/slices/postsSlice";
 
 type Props = {};
 export type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
   Register: undefined;
-  welcome2: undefined;
+  Home: undefined;
+  Groups: undefined;
+  Notifications: undefined;
+  Messages: undefined;
+  Profile: undefined;
+  Question: { data: Ipost };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -42,7 +56,8 @@ const Main = (props: Props) => {
           "Montserrat-Thin": require("./assets/fonts/Montserrat-Thin.ttf"),
           "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
         });
-        const token = await AsyncStorage.getItem("askToken");
+        const token = await AsyncStorage.getItem("voteAppToken");
+
         dispatch(setToken(token));
       } catch (e) {
         console.warn(e);
@@ -71,27 +86,65 @@ const Main = (props: Props) => {
     />
   ) : (
     <>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          animation: token ? "none" : "slide_from_bottom",
+          header: (props) => {
+            return token ? <NavBar props={props} /> : null;
+          },
+        }}
+      >
         {!token ? (
           <>
             <Stack.Screen
-              options={{ headerShown: false }}
               name="Welcome"
               component={Welcome}
             />
             <Stack.Screen
-              options={{ headerShown: false }}
               name="Login"
               component={Login}
             />
             <Stack.Screen
-              options={{ headerShown: false }}
               name="Register"
               component={Register}
             />
           </>
         ) : (
-          <></>
+          <>
+            <Stack.Screen
+              name="Home"
+              component={Home}
+            />
+            <Stack.Screen
+              name="Groups"
+              component={Groups}
+            />
+            <Stack.Screen
+              name="Notifications"
+              component={Notifications}
+            />
+            <Stack.Screen
+              name="Messages"
+              component={Messages}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
+            />
+            <Stack.Screen
+              options={{
+                animation: "flip",
+                header: (props) => (
+                  <CustomScreenHeader
+                    navigation={props}
+                    title="Answers"
+                  />
+                ),
+              }}
+              name="Question"
+              component={Question}
+            />
+          </>
         )}
       </Stack.Navigator>
       <Snackbar

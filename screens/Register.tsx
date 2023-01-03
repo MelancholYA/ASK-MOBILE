@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import useAuth from "../helpers/useAuth";
 import AuthHeader from "../componants/AuthHeader";
+import CustomText from "../componants/CustomText";
 
 type Props = {};
 
@@ -25,7 +26,7 @@ const Register = (props: Props) => {
     <ScrollView style={styles.container}>
       <AuthHeader />
       <View style={styles.subContainer}>
-        <Text style={styles.subtitle}>Welcome aboard friend</Text>
+        <CustomText style={styles.subtitle}>Welcome aboard friend</CustomText>
         <TextInput
           value={userData.firstName}
           onChangeText={(e) => setUserData({ ...userData, firstName: e })}
@@ -47,6 +48,7 @@ const Register = (props: Props) => {
           style={styles.input}
         />
         <TextInput
+          keyboardType="email-address"
           value={userData.email}
           onChangeText={(e) => setUserData({ ...userData, email: e })}
           mode="outlined"

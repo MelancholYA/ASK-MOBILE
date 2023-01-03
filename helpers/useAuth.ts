@@ -24,9 +24,9 @@ const checkEmail = (email: string) => {
   return true;
 };
 
-const errMessage = (error: any) => {
+export const errMessage = (error: any) => {
   if (error.response) {
-    return error.response.data.massage;
+    return error.response.data.message;
   } else {
     return error.message;
   }
@@ -38,8 +38,8 @@ const useAuth = () => {
   const dispatch = useDispatch();
 
   const login: Ilogin = (email, password) => {
-    console.log(BASE_URL);
     setLoading(true);
+    console.log(BASE_URL);
     if (!email || !password) {
       openNotification("Please fill all the fields");
       setLoading(false);
@@ -56,22 +56,23 @@ const useAuth = () => {
       return;
     }
     axios
-      .post(BASE_URL + "/login", {
+      .post(BASE_URL + "users/login", {
         email,
         password,
       })
-      .then((res) => {
-        AsyncStorage.setItem("voteAppToken", res.data.token)
-          .then(() => {
-            dispatch(setToken(res.data.token));
-            setLoading(false);
-          })
-          .catch((err) => {
-            openNotification(errMessage(err));
-            setLoading(false);
-          });
+      .then(async (res) => {
+        console.log({ res });
+        try {
+          await AsyncStorage.setItem("voteAppToken", res.data.token);
+          dispatch(setToken(res.data.token));
+          setLoading(false);
+        } catch (error) {
+          openNotification(errMessage(error));
+          setLoading(false);
+        }
       })
       .catch((err) => {
+        console.log(err);
         openNotification(errMessage(err));
         setLoading(false);
       });
@@ -99,19 +100,19 @@ const useAuth = () => {
       return;
     }
     axios
-      .post(BASE_URL, { firstName, lastName, email, password })
-      .then((res) => {
-        AsyncStorage.setItem("voteAppToken", res.data.token)
-          .then(() => {
-            dispatch(setToken(res.data.token));
-            setLoading(false);
-          })
-          .catch((err) => {
-            openNotification(errMessage(err));
-            setLoading(false);
-          });
+      .post(BASE_URL + "users/new", { firstName, lastName, email, password })
+      .then(async (res) => {
+        try {
+          await AsyncStorage.setItem("voteAppToken", res.data.token);
+          dispatch(setToken(res.data.token));
+          setLoading(false);
+        } catch (error) {
+          openNotification(errMessage(error));
+          setLoading(false);
+        }
       })
       .catch((err) => {
+        console.log(err);
         openNotification(errMessage(err));
         setLoading(false);
       });

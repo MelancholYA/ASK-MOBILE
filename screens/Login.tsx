@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import useAuth from "../helpers/useAuth";
 import AuthHeader from "../componants/AuthHeader";
+import CustomText from "../componants/CustomText";
 
 type Props = {};
 
@@ -17,8 +18,9 @@ const Login = (props: Props) => {
     <View style={styles.container}>
       <AuthHeader />
       <View style={styles.subContainer}>
-        <Text style={styles.subtitle}>Welcome back friend</Text>
+        <CustomText style={styles.subtitle}>Welcome back friend</CustomText>
         <TextInput
+          keyboardType="email-address"
           value={userData.email}
           onChangeText={(e) => setUserData({ ...userData, email: e })}
           mode="outlined"

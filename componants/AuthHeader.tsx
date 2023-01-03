@@ -2,6 +2,7 @@ import { StyleSheet, Text, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import React from "react";
+import CustomText from "./CustomText";
 
 type Props = {};
 
@@ -20,7 +21,7 @@ const AuthHeader = (props: Props) => {
           style={[styles.background]}
         />
       </ImageBackground>
-      <Text style={styles.title}>ASK</Text>
+      <CustomText style={styles.title}>ASK</CustomText>
     </>
   );
 };
