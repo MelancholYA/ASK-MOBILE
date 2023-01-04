@@ -45,7 +45,7 @@ const Post = ({ post }: Props) => {
         </Button>
       </View>
       <CustomText
-        onPress={() => navigation.navigate("Question", { data: post })}
+        onPress={() => navigation.navigate("Question", { postId: post.id })}
         style={styles.body}
       >
         {post.body}
@@ -61,7 +61,7 @@ const Post = ({ post }: Props) => {
             icon="thumb-up"
           />
           <IconButton
-            onPress={() => navigation.navigate("Question", { data: post })}
+            onPress={() => navigation.navigate("Question", { postId: post.id })}
             style={{ width: 50 }}
             mode="contained"
             size={15}

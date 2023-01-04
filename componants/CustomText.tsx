@@ -4,10 +4,17 @@ import { Text, TextProps } from "react-native-paper";
 interface Props extends TextProps {}
 
 const CustomText = (props: Props) => {
+  const styles = StyleSheet.compose(
+    {
+      fontFamily: "Montserrat-Medium",
+      color: "#444D6E",
+    },
+    props.style
+  );
   return (
     <Text
-      style={[styles.text, props.style]}
       {...props}
+      style={styles}
     >
       {props.children}
     </Text>
@@ -15,9 +22,3 @@ const CustomText = (props: Props) => {
 };
 
 export default CustomText;
-
-const styles = StyleSheet.create({
-  text: {
-    fontFamily: "Montserrat-Medium",
-  },
-});

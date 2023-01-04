@@ -26,23 +26,19 @@ const NoData = ({ text }: { text: string }) => {
 
 const Posts = (props: Props) => {
   const dispatch = useDispatch();
-  const { postsToDisplay } = useSelector((state: RootState) => state.posts);
+  const { postsToDisplay, posts } = useSelector(
+    (state: RootState) => state.posts
+  );
   const { homePageChips } = useSelector((state: RootState) => state.chips);
 
   useEffect(() => {
     dispatch(setPostsToDisplay(homePageChips));
-  }, [homePageChips]);
+  }, [homePageChips, posts]);
 
   return (
     <FlatList
       ListEmptyComponent={<NoData text="No posts are available" />}
       onEndReached={() => console.log("end")}
-      // ListFooterComponent={
-      //   <ActivityIndicator
-      //     size="small"
-      //     style={{ marginBottom: 10 }}
-      //   />
-      // }
       style={styles.container}
       scrollEnabled
       data={postsToDisplay}

@@ -1,8 +1,6 @@
-import { StatusBar, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
-import CustomText from "./CustomText";
-import { Appbar, IconButton } from "react-native-paper";
+import { Appbar } from "react-native-paper";
 
 type Props = {
   navigation: NativeStackHeaderProps;

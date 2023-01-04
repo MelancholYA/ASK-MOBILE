@@ -1,33 +1,77 @@
-import { StyleSheet, ScrollView, View } from "react-native";
 import React from "react";
+import { StyleSheet, View, FlatList } from "react-native";
+import { Avatar, Button } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import { RootStackParamList } from "../Main";
+import { chipStyle } from "../componants/Filter";
 import CustomText from "../componants/CustomText";
-import { Avatar } from "react-native-paper";
+import AnswerInput from "../componants/AnswerInput";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import AnswerCard from "../componants/AnswerCard";
 
 //todo : make the reply componant
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question">;
 
 const Question = ({ navigation, route }: Props) => {
-  const post = route.params.data;
+  const { postId } = route.params;
+  const post = useSelector((state: RootState) => state.posts.posts).filter(
+    (post) => post.id === postId
+  )[0];
   return (
-    <ScrollView>
+    <>
       <View style={styles.container}>
-        <Avatar.Image
-          style={styles.avatar}
-          size={45}
-          source={{ uri: post.user.avatar }}
+        <View style={styles.post}>
+          <View style={styles.header}>
+            <Avatar.Image
+              style={styles.avatar}
+              size={45}
+              source={{ uri: post.user.avatar }}
+            />
+            <View>
+              <CustomText style={styles.name}> {post.user.name}</CustomText>
+              <CustomText style={styles.groupName}>
+                {post.group?.name}
+              </CustomText>
+            </View>
+            <Button
+              textColor="white"
+              style={[
+                chipStyle.container,
+                {
+                  marginLeft: "auto",
+                  transform: [{ scale: 0.8 }, { translateX: 15 }],
+                },
+              ]}
+              icon={post.chip.icon}
+            >
+              {post.chip.label}
+            </Button>
+          </View>
+          <CustomText
+            onPress={() => navigation.navigate("Question", { postId: postId })}
+            style={styles.body}
+          >
+            {post.body}
+          </CustomText>
+        </View>
+        <FlatList
+          listKey="1"
+          style={styles.answers}
+          renderItem={(item) => (
+            <AnswerCard
+              postId={post.id}
+              data={item.item}
+              key={item.item.id}
+            />
+          )}
+          data={post.answers}
         />
-        <CustomText style={styles.name}> {post.user.name}</CustomText>
-        <CustomText style={styles.body}> {post.body} </CustomText>
+        <AnswerInput postId={post.id} />
       </View>
-      <View>
-        {post.answers?.map((answer) => (
-          <View>{answer.body}</View>
-        ))}
-      </View>
-    </ScrollView>
+    </>
   );
 };
 
@@ -35,39 +79,39 @@ export default Question;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#14213d29",
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 15,
+    backgroundColor: "#D7D9DD",
+    flex: 1,
+  },
+  post: {
+    marginBottom: 10,
   },
   avatar: {
-    margin: 10,
+    marginRight: 10,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    paddingHorizontal: 20,
   },
   name: {
     fontFamily: "Montserrat-Bold",
-    color: "#8795c9",
-    textAlign: "center",
+    color: "#444D6E",
   },
-
+  groupName: {
+    fontFamily: "Montserrat-Medium",
+    color: "#444D6E",
+  },
   body: {
     fontFamily: "Montserrat-Bold",
-    textAlign: "center",
     color: "#444D6E",
-    marginTop: 15,
+    margin: 15,
+    paddingHorizontal: 15,
   },
-  footer: {
-    padding: 5,
-    paddingVertical: 3,
-    paddingRight: 10,
-    backgroundColor: "#14213da9",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderRadius: 10,
-  },
-
-  buttons: {
-    flexDirection: "row",
+  answers: {
+    padding: 10,
+    paddingHorizontal: 20,
+    minHeight: 50,
+    overflow: "hidden",
   },
 });

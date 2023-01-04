@@ -21,7 +21,7 @@ import Messages from "./screens/Messages";
 import Profile from "./screens/Profile";
 import Question from "./screens/Question";
 import CustomScreenHeader from "./componants/CustomScreenHeader";
-import { Ipost } from "./redux/slices/postsSlice";
+import Answer from "./screens/Answer";
 
 type Props = {};
 export type RootStackParamList = {
@@ -33,7 +33,8 @@ export type RootStackParamList = {
   Notifications: undefined;
   Messages: undefined;
   Profile: undefined;
-  Question: { data: Ipost };
+  Question: { postId: string };
+  Answer: { postId: string; answerId: string; focus?: boolean };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -137,6 +138,7 @@ const Main = (props: Props) => {
                 header: (props) => (
                   <CustomScreenHeader
                     navigation={props}
+                    color="#D7D9DD"
                     title="Answers"
                   />
                 ),
@@ -144,11 +146,29 @@ const Main = (props: Props) => {
               name="Question"
               component={Question}
             />
+            <Stack.Screen
+              options={{
+                animation: "flip",
+                header: (props) => (
+                  <CustomScreenHeader
+                    navigation={props}
+                    color="#D7D9DD"
+                    title="Replies"
+                  />
+                ),
+              }}
+              name="Answer"
+              component={Answer}
+            />
           </>
         )}
       </Stack.Navigator>
       <Snackbar
-        action={{ label: "undo", textColor: "white" }}
+        action={{
+          label: "",
+          icon: "close-thick",
+          textColor: "white",
+        }}
         onDismiss={dismissNote}
         visible={show}
         duration={15000}
