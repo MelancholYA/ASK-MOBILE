@@ -1,27 +1,36 @@
-import { ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
+import { ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
-import { RootState } from "./redux/store";
 import * as Font from "expo-font";
 
-import Welcome from "./screens/Welcome";
+//redux
+import { RootState } from "./redux/store";
 import { setToken } from "./redux/slices/tokenSlice";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Login from "./screens/Login";
-import { Snackbar } from "react-native-paper";
-import useNotification from "./helpers/useNotification";
-import Register from "./screens/Register";
-import Home from "./screens/Home";
+
+//screens
+//main screens
+import Welcome from "./screens/Main screens/Welcome";
+import Login from "./screens/Main screens/Login";
+import Register from "./screens/Main screens/Register";
+import Home from "./screens/Main screens/Home";
+import Groups from "./screens/Main screens/Groups";
+import Messages from "./screens/Main screens/Messages";
+import Profile from "./screens/Main screens/Profile";
+import Question from "./screens/Main screens/Question";
+//sub screens
+import Notifications from "./screens/sub screens/Notifications";
+import Answer from "./screens/sub screens/Answer";
+import Group from "./screens/sub screens/Group";
+
+//headers
 import NavBar from "./componants/NavBar";
-import Groups from "./screens/Groups";
-import Notifications from "./screens/Notifications";
-import Messages from "./screens/Messages";
-import Profile from "./screens/Profile";
-import Question from "./screens/Question";
 import CustomScreenHeader from "./componants/CustomScreenHeader";
-import Answer from "./screens/Answer";
+//tools
+import useNotification from "./helpers/useNotification";
+import { Snackbar } from "react-native-paper";
 
 type Props = {};
 export type RootStackParamList = {
@@ -35,6 +44,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Question: { postId: string };
   Answer: { postId: string; answerId: string; focus?: boolean };
+  Group: { groupId: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -58,7 +68,6 @@ const Main = (props: Props) => {
           "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
         });
         const token = await AsyncStorage.getItem("voteAppToken");
-
         dispatch(setToken(token));
       } catch (e) {
         console.warn(e);
@@ -66,7 +75,6 @@ const Main = (props: Props) => {
         setAppIsReady(true);
       }
     }
-
     prepare();
   }, []);
 
@@ -159,6 +167,14 @@ const Main = (props: Props) => {
               }}
               name="Answer"
               component={Answer}
+            />
+            <Stack.Screen
+              options={{
+                animation: "flip",
+                headerShown: false,
+              }}
+              name="Group"
+              component={Group}
             />
           </>
         )}

@@ -9,7 +9,7 @@ import CustomText from "./CustomText";
 
 type Props = {};
 
-const NoData = ({ text }: { text: string }) => {
+export const NoData = ({ text }: { text: string }) => {
   return (
     <View
       style={{

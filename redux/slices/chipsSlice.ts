@@ -5,6 +5,14 @@ export interface Ichip {
   label: string;
   icon: string;
 }
+interface IfilterBody {
+  page:
+    | "homePageChips"
+    | "newQuestionChips"
+    | "groupFilterChips"
+    | "newGroupChips";
+  chip: Ichip;
+}
 
 const initialState: {
   chips: Ichip[];
@@ -73,22 +81,24 @@ export const chipSlice = createSlice({
       state.chips = action.payload;
       return state;
     },
-    setHomePageChips: (state, action: PayloadAction<Ichip>) => {
+
+    setFilters: (state, action: PayloadAction<IfilterBody>) => {
+      const { page } = action.payload;
       if (
-        state.homePageChips
+        state[page]
           .map((chip) => chip.label)
-          .includes(action.payload.label)
+          .includes(action.payload.chip.label)
       ) {
-        state.homePageChips = state.homePageChips.filter(
-          (chip) => chip.label !== action.payload.label
+        state[page] = state[page].filter(
+          (chip) => chip.label !== action.payload.chip.label
         );
       } else {
-        state.homePageChips.push(action.payload);
+        state[page].push(action.payload.chip);
       }
     },
   },
 });
 
-export const { setChips, setHomePageChips } = chipSlice.actions;
+export const { setChips, setFilters } = chipSlice.actions;
 
 export default chipSlice.reducer;

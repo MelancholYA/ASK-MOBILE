@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import React from "react";
-import { Button, Chip, IconButton } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { Ichip, setHomePageChips } from "../redux/slices/chipsSlice";
+import { Ichip, setFilters } from "../redux/slices/chipsSlice";
 import CustomText from "./CustomText";
 
 type Props = {
@@ -36,7 +36,7 @@ const Filter = ({ Case }: Props) => {
             >
               {chipsState.chips.map((chip) => (
                 <Button
-                  onPress={() => dispatch(setHomePageChips(chip))}
+                  onPress={() => dispatch(setFilters({ chip, page: Case }))}
                   key={chip.label}
                   textColor={selected(chip) ? "#FF9E00" : "white"}
                   icon={chip.icon}

@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
-import useAuth from "../helpers/useAuth";
-import AuthHeader from "../componants/AuthHeader";
-import CustomText from "../componants/CustomText";
+import useAuth from "../../helpers/useAuth";
+import AuthHeader from "../../componants/AuthHeader";
+import CustomText from "../../componants/CustomText";
 
 type Props = {};
 

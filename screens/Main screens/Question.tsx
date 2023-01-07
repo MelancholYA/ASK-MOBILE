@@ -3,13 +3,13 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { RootStackParamList } from "../Main";
-import { chipStyle } from "../componants/Filter";
-import CustomText from "../componants/CustomText";
-import AnswerInput from "../componants/AnswerInput";
+import { RootStackParamList } from "../../Main";
+import { chipStyle } from "../../componants/Filter";
+import CustomText from "../../componants/CustomText";
+import AnswerInput from "../../componants/AnswerInput";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import AnswerCard from "../componants/AnswerCard";
+import { RootState } from "../../redux/store";
+import AnswerCard from "../../componants/AnswerCard";
 
 //todo : make the reply componant
 

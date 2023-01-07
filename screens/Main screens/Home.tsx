@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import React from "react";
-import Filter from "../componants/Filter";
-import Posts from "../componants/Posts";
+import Filter from "../../componants/Filter";
+import Posts from "../../componants/Posts";
 
 type Props = {};
 

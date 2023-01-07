@@ -1,17 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import CustomText from "../componants/CustomText";
+import CustomText from "../../componants/CustomText";
 
 type Props = {};
 
-const Groups = (props: Props) => {
+const Messages = (props: Props) => {
   return (
     <View>
-      <CustomText>Groups</CustomText>
+      <CustomText>Messages</CustomText>
     </View>
   );
 };
 
-export default Groups;
+export default Messages;
 
 const styles = StyleSheet.create({});
