@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { Ipost } from "./postsSlice";
 import { Ichip } from "./chipsSlice";
 
 export interface Igroup {
@@ -10,6 +12,9 @@ export interface Igroup {
   avatar?: string;
   members: number;
   topic: string;
+  postsLength?: number;
+  posts?: Ipost[];
+  joined?: boolean;
 }
 interface Istate {
   groups: Igroup[];
@@ -25,6 +30,54 @@ const initialState: Istate = {
       members: 10,
       name: "tech nerds",
       topic: "Tech",
+      postsLength: 25,
+      joined: true,
+      posts: [
+        {
+          answersLength: 10,
+          body: "Whats the worst thing you did ?",
+          group: {
+            id: "sdfgqsdf",
+            name: "tech nerds",
+          },
+          chip: {
+            icon: "application-brackets",
+            label: "Sports",
+          },
+          id: "id1",
+          user: {
+            avatar:
+              "https://media.licdn.com/dms/image/C5603AQH-_13BcTuxMw/profile-displayphoto-shrink_100_100/0/1605695459455?e=1678320000&v=beta&t=3gKUUmumHWDyd7dMBX3aWOuEjYqHKHpnFTxjqV_B88I",
+            id: "fdsqdg",
+            name: "Yacine ouardi",
+          },
+          liked: true,
+          answers: [
+            {
+              body: "i dont remember",
+              id: "fdqd",
+              user: {
+                avatar:
+                  "https://media.licdn.com/dms/image/C5603AQH-_13BcTuxMw/profile-displayphoto-shrink_100_100/0/1605695459455?e=1678320000&v=beta&t=3gKUUmumHWDyd7dMBX3aWOuEjYqHKHpnFTxjqV_B88I",
+                id: "fdsqdg",
+                name: "Yacine ouardi",
+              },
+              replies: [
+                {
+                  body: "gdqgfdgsqdf",
+                  id: "fdsqfdfsq",
+                  user: {
+                    avatar:
+                      "https://media.licdn.com/dms/image/C5603AQH-_13BcTuxMw/profile-displayphoto-shrink_100_100/0/1605695459455?e=1678320000&v=beta&t=3gKUUmumHWDyd7dMBX3aWOuEjYqHKHpnFTxjqV_B88I",
+                    id: "fdsqdg",
+                    name: "Yacine ouardi",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
     {
       description:
@@ -33,6 +86,7 @@ const initialState: Istate = {
       members: 10,
       name: "Philosophers",
       topic: "Sports",
+      postsLength: 250,
       background:
         "https://media.licdn.com/dms/image/C4D22AQHvoaa0QuvT-Q/feedshare-shrink_2048_1536/0/1673079703267?e=1675900800&v=beta&t=ykaL_QaIpHem8KwwhTBCRpBkQUxhBOVJcRO4XBwyRwM",
       avatar:
@@ -69,10 +123,27 @@ export const grouspSlice = createSlice({
       newArr.reverse();
       state.groupsToDesplay = newArr;
     },
+    joinGroup: (state, action: PayloadAction<{ groupId: string }>) => {
+      state.groups = [...state.groups].map((group) => {
+        if (group.id === action.payload.groupId) {
+          return { ...group, joined: true };
+        }
+        return group;
+      });
+    },
+    leaveGroup: (state, action: PayloadAction<{ groupId: string }>) => {
+      state.groups = [...state.groups].map((group) => {
+        if (group.id === action.payload.groupId) {
+          return { ...group, joined: false };
+        }
+        return group;
+      });
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setGroups, setGroupsToDisplay } = grouspSlice.actions;
+export const { setGroups, setGroupsToDisplay, joinGroup, leaveGroup } =
+  grouspSlice.actions;
 
 export default grouspSlice.reducer;

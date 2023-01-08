@@ -6,21 +6,66 @@ import {
   ImageBackground,
 } from "react-native";
 import React from "react";
-import { Appbar, Avatar, Button, Chip, IconButton } from "react-native-paper";
-import { Igroup } from "../redux/slices/groupsSlice";
+import { Appbar, Avatar, Button, IconButton, Menu } from "react-native-paper";
+import { Igroup, joinGroup, leaveGroup } from "../redux/slices/groupsSlice";
 import { texture } from "../screens/Main screens/Welcome";
 import CustomText from "./CustomText";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 type Props = {
   group: Igroup;
+  goBack: () => void;
 };
 
-const GroupHeader = ({ group }: Props) => {
+const GroupMenu = ({ leave }: { leave: () => void }) => {
+  const [visible, setVisible] = React.useState(false);
+  return (
+    <Menu
+      visible={visible}
+      anchorPosition="bottom"
+      contentStyle={{
+        transform: [{ translateX: -30 }],
+        padding: 5,
+        borderRadius: 5,
+      }}
+      onDismiss={() => setVisible(false)}
+      anchor={
+        <IconButton
+          mode="contained"
+          containerColor="white"
+          size={20}
+          icon={visible ? "close-thick" : "dots-vertical"}
+          onPress={() => setVisible(true)}
+        />
+      }
+    >
+      <Menu.Item
+        dense={true}
+        onPress={() => {}}
+        title="Invite a friend"
+      />
+      <Menu.Item
+        onPress={leave}
+        title="Leave group"
+      />
+    </Menu>
+  );
+};
+
+const GroupHeader = ({ group, goBack }: Props) => {
+  const dispatch = useDispatch();
   const chip = useSelector((state: RootState) => state.chips.chips).filter(
     (chip) => chip.label === group.topic
   )[0];
+
+  const join = () => {
+    dispatch(joinGroup({ groupId: group.id }));
+  };
+  const leave = () => {
+    dispatch(leaveGroup({ groupId: group.id }));
+  };
+
   return (
     <ImageBackground
       source={group.background ? { uri: group.background } : texture}
@@ -28,6 +73,7 @@ const GroupHeader = ({ group }: Props) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Appbar.BackAction
+            onPress={goBack}
             color="white"
             size={30}
           />
@@ -51,14 +97,19 @@ const GroupHeader = ({ group }: Props) => {
               iconColor="white"
               size={15}
             />
-
-            <IconButton
-              style={{ marginLeft: "auto" }}
-              icon="account-plus"
-              mode="contained"
-              containerColor="white"
-              size={20}
-            />
+            <View style={{ marginLeft: "auto" }}>
+              {group.joined ? (
+                <GroupMenu leave={leave} />
+              ) : (
+                <IconButton
+                  icon="account-plus"
+                  mode="contained"
+                  containerColor="white"
+                  onPress={join}
+                  size={20}
+                />
+              )}
+            </View>
           </View>
           <CustomText
             variant="bodySmall"

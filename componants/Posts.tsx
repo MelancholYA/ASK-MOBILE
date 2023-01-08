@@ -19,7 +19,7 @@ export const NoData = ({ text }: { text: string }) => {
         alignItems: "center",
       }}
     >
-      <CustomText variant="headlineSmall">{text}</CustomText>
+      <CustomText variant="titleMedium">{text}</CustomText>
     </View>
   );
 };
@@ -56,6 +56,6 @@ export default Posts;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 10,
+    padding: 10,
   },
 });

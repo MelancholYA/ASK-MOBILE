@@ -1,22 +1,20 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import { Ipost } from "../redux/slices/postsSlice";
-import { Text, Avatar, Button, IconButton } from "react-native-paper";
+import { Avatar, Button, IconButton } from "react-native-paper";
 import { chipStyle } from "./Filter";
 import CustomText from "./CustomText";
-import {
-  useNavigation,
-  CompositeNavigationProp,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../Main";
 
 type Props = {
   post: Ipost;
+  footerless?: boolean;
 };
 export type useNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const Post = ({ post }: Props) => {
+const Post = ({ post, footerless }: Props) => {
   const navigation = useNavigation<useNavigationProp>();
   return (
     <View style={styles.container}>
@@ -45,38 +43,42 @@ const Post = ({ post }: Props) => {
         </Button>
       </View>
       <CustomText
-        onPress={() => navigation.navigate("Question", { postId: post.id })}
+        //onPress={() => navigation.navigate("Question", { postId: post.id })}
         style={styles.body}
       >
         {post.body}
       </CustomText>
-      <View style={styles.footer}>
-        <View style={styles.buttons}>
-          <IconButton
-            style={{ width: 50 }}
-            size={15}
-            mode="contained"
-            containerColor="white"
-            iconColor={post.liked ? "#436ce7" : "#444d6edd"}
-            icon="thumb-up"
-          />
-          <IconButton
-            onPress={() => navigation.navigate("Question", { postId: post.id })}
-            style={{ width: 50 }}
-            mode="contained"
-            size={15}
-            containerColor="white"
-            iconColor="#444D6E"
-            icon="comment-text-multiple"
-          />
+      {!footerless && (
+        <View style={styles.footer}>
+          <View style={styles.buttons}>
+            <IconButton
+              style={{ width: 50 }}
+              size={15}
+              mode="contained"
+              containerColor="white"
+              iconColor={post.liked ? "#436ce7" : "#444d6edd"}
+              icon="thumb-up"
+            />
+            <IconButton
+              onPress={() =>
+                navigation.navigate("Question", { postId: post.id })
+              }
+              style={{ width: 50 }}
+              mode="contained"
+              size={15}
+              containerColor="white"
+              iconColor="#444D6E"
+              icon="comment-text-multiple"
+            />
+          </View>
+          <CustomText
+            variant="labelSmall"
+            style={{ color: "#ffffff83" }}
+          >
+            {post.answersLength} answers
+          </CustomText>
         </View>
-        <CustomText
-          variant="labelSmall"
-          style={{ color: "#ffffff83" }}
-        >
-          {post.answersLength} answers
-        </CustomText>
-      </View>
+      )}
     </View>
   );
 };
@@ -85,9 +87,8 @@ export default Post;
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
+    marginBottom: 10,
     backgroundColor: "#14213d29",
-
     borderRadius: 5,
     overflow: "hidden",
   },
