@@ -31,6 +31,7 @@ import CustomScreenHeader from "./componants/CustomScreenHeader";
 //tools
 import useNotification from "./helpers/useNotification";
 import { Snackbar } from "react-native-paper";
+import InviteFriend from "./screens/sub screens/InviteFriend";
 
 type Props = {};
 export type RootStackParamList = {
@@ -45,6 +46,7 @@ export type RootStackParamList = {
   Question: { postId: string };
   Answer: { postId: string; answerId: string; focus?: boolean };
   Group: { groupId: string };
+  InviteAfriend: { groupId: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -175,6 +177,19 @@ const Main = (props: Props) => {
               }}
               name="Group"
               component={Group}
+            />
+            <Stack.Screen
+              options={{
+                animation: "flip",
+                header: (props) => (
+                  <CustomScreenHeader
+                    navigation={props}
+                    title="Invite a friend"
+                  />
+                ),
+              }}
+              name="InviteAfriend"
+              component={InviteFriend}
             />
           </>
         )}

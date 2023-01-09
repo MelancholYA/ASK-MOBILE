@@ -12,13 +12,21 @@ import { texture } from "../screens/Main screens/Welcome";
 import CustomText from "./CustomText";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { RootStackParamList } from "../Main";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type Props = {
   group: Igroup;
-  goBack: () => void;
+  navigation: NativeStackNavigationProp<RootStackParamList, "Group", undefined>;
 };
 
-const GroupMenu = ({ leave }: { leave: () => void }) => {
+const GroupMenu = ({
+  leave,
+  invite,
+}: {
+  leave: () => void;
+  invite: () => void;
+}) => {
   const [visible, setVisible] = React.useState(false);
   return (
     <Menu
@@ -42,7 +50,10 @@ const GroupMenu = ({ leave }: { leave: () => void }) => {
     >
       <Menu.Item
         dense={true}
-        onPress={() => {}}
+        onPress={() => {
+          setVisible(false);
+          invite();
+        }}
         title="Invite a friend"
       />
       <Menu.Item
@@ -53,7 +64,7 @@ const GroupMenu = ({ leave }: { leave: () => void }) => {
   );
 };
 
-const GroupHeader = ({ group, goBack }: Props) => {
+const GroupHeader = ({ group, navigation }: Props) => {
   const dispatch = useDispatch();
   const chip = useSelector((state: RootState) => state.chips.chips).filter(
     (chip) => chip.label === group.topic
@@ -73,7 +84,7 @@ const GroupHeader = ({ group, goBack }: Props) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Appbar.BackAction
-            onPress={goBack}
+            onPress={navigation.goBack}
             color="white"
             size={30}
           />
@@ -99,7 +110,12 @@ const GroupHeader = ({ group, goBack }: Props) => {
             />
             <View style={{ marginLeft: "auto" }}>
               {group.joined ? (
-                <GroupMenu leave={leave} />
+                <GroupMenu
+                  leave={leave}
+                  invite={() =>
+                    navigation.navigate("InviteAfriend", { groupId: group.id })
+                  }
+                />
               ) : (
                 <IconButton
                   icon="account-plus"

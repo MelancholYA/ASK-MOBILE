@@ -22,7 +22,7 @@ const Group = ({ route, navigation }: Props) => {
   return (
     <>
       <GroupHeader
-        goBack={navigation.goBack}
+        navigation={navigation}
         group={group}
       />
       <View style={styles.container}>

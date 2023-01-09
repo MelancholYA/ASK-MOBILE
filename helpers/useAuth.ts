@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BASE_URL } from "@env";
 
-import { setToken } from "../redux/slices/tokenSlice";
+import { setToken, setUser } from "../redux/slices/tokenSlice";
 import useNotification from "./useNotification";
 
 type Ilogin = (email: string, password: string) => void;
@@ -61,10 +61,10 @@ const useAuth = () => {
         password,
       })
       .then(async (res) => {
-        console.log({ res });
         try {
           await AsyncStorage.setItem("voteAppToken", res.data.token);
           dispatch(setToken(res.data.token));
+          dispatch(setUser(res.data.user));
           setLoading(false);
         } catch (error) {
           openNotification(errMessage(error));
@@ -105,6 +105,7 @@ const useAuth = () => {
         try {
           await AsyncStorage.setItem("voteAppToken", res.data.token);
           dispatch(setToken(res.data.token));
+          dispatch(setUser(res.data.user));
           setLoading(false);
         } catch (error) {
           openNotification(errMessage(error));
