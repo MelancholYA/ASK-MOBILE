@@ -2,8 +2,8 @@ import { StyleSheet, TextInput, View, Dimensions } from "react-native";
 import React, { useState } from "react";
 import { IconButton } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { answerQuestion } from "../redux/slices/postsSlice";
-import useNotification from "../helpers/useNotification";
+import { answerQuestion } from "../../redux/slices/postsSlice";
+import useNotification from "../../helpers/useNotification";
 
 interface props {
   postId: string;

@@ -6,7 +6,7 @@ import CustomText from "./CustomText";
 
 type Props = {};
 
-const texture = require("../assets/texture.jpg");
+const texture = require("../../assets/texture.jpg");
 
 const AuthHeader = (props: Props) => {
   return (

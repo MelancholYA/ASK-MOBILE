@@ -1,9 +1,9 @@
 import { StyleSheet, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Iuser } from "../redux/slices/tokenSlice";
+import { Iuser } from "../../redux/slices/tokenSlice";
 import { Avatar, Checkbox } from "react-native-paper";
-import CustomText from "./CustomText";
-import { texture } from "../screens/Main screens/Welcome";
+import CustomText from "../Gloabls/CustomText";
+import { texture } from "../../screens/Main screens/Welcome";
 
 type Props = {};
 

@@ -8,8 +8,8 @@ import {
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import useAuth from "../../helpers/useAuth";
-import AuthHeader from "../../componants/AuthHeader";
-import CustomText from "../../componants/CustomText";
+import AuthHeader from "../../componants/Gloabls/AuthHeader";
+import CustomText from "../../componants/Gloabls/CustomText";
 
 type Props = {};
 

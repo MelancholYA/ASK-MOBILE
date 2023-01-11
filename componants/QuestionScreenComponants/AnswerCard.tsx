@@ -1,11 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import { Avatar, Button, IconButton } from "react-native-paper";
-import CustomText from "./CustomText";
-import { Ianswer } from "../redux/slices/postsSlice";
+import CustomText from "../Gloabls/CustomText";
+import { Ianswer } from "../../redux/slices/postsSlice";
 import { useNavigation } from "@react-navigation/native";
 
-import { useNavigationProp } from "./Post";
+import { useNavigationProp } from "../HomeScreenComponants/Post";
 
 type Props = {
   data: Ianswer;
@@ -49,7 +49,7 @@ const Answer = ({ data, postId }: Props) => {
           iconColor="#444D6E"
           icon={"share"}
           onPress={() =>
-            navigation.navigate("Answer", {
+            navigation.navigate("Replies", {
               answerId: data.id,
               postId,
               focus: true,
@@ -59,7 +59,7 @@ const Answer = ({ data, postId }: Props) => {
         <Button
           textColor="#444D6E"
           onPress={() =>
-            navigation.navigate("Answer", { answerId: data.id, postId })
+            navigation.navigate("Replies", { answerId: data.id, postId })
           }
           style={{ marginLeft: -15 }}
         >

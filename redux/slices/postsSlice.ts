@@ -31,14 +31,14 @@ export interface Ipost {
   };
   user: {
     id: string;
-    avatar: string;
+    avatar?: string;
     name: string;
   };
   body: string;
   chip: Ichip;
-  answersLength: number;
+  answersLength?: number;
   answers?: Ianswer[];
-  liked: boolean;
+  liked?: boolean;
 }
 
 interface IanswerBody {
@@ -241,10 +241,20 @@ export const postsSlice = createSlice({
         return post;
       });
     },
+    addPost: (state, action: PayloadAction<Ipost>) => {
+      state.posts.push(action.payload);
+      state.posts.reverse();
+      return state;
+    },
   },
 });
 
-export const { setPosts, setPostsToDisplay, answerQuestion, replyToAnswer } =
-  postsSlice.actions;
+export const {
+  setPosts,
+  setPostsToDisplay,
+  answerQuestion,
+  replyToAnswer,
+  addPost,
+} = postsSlice.actions;
 
 export default postsSlice.reducer;

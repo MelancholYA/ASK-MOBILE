@@ -4,14 +4,12 @@ import { Avatar, Button } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../Main";
-import { chipStyle } from "../../componants/Filter";
-import CustomText from "../../componants/CustomText";
-import AnswerInput from "../../componants/AnswerInput";
+import { chipStyle } from "../../componants/Gloabls/Filter";
+import CustomText from "../../componants/Gloabls/CustomText";
+import AnswerInput from "../../componants/QuestionScreenComponants/AnswerInput";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import AnswerCard from "../../componants/AnswerCard";
-
-//todo : make the reply componant
+import AnswerCard from "../../componants/QuestionScreenComponants/AnswerCard";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question">;
 

@@ -1,18 +1,22 @@
-import { StyleSheet, View } from "react-native";
 import React from "react";
-import { Ipost } from "../redux/slices/postsSlice";
+import { StyleSheet, View } from "react-native";
 import { Avatar, Button, IconButton } from "react-native-paper";
-import { chipStyle } from "./Filter";
-import CustomText from "./CustomText";
-import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../Main";
+
+import CustomText from "../Gloabls/CustomText";
+import { useNavigation } from "@react-navigation/native";
+
+import { Ipost } from "../../redux/slices/postsSlice";
+import { RootStackParamList } from "../../Main";
+import { chipStyle } from "../Gloabls/Filter";
 
 type Props = {
   post: Ipost;
   footerless?: boolean;
 };
 export type useNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+export const userImage = require("../../assets/user.png");
 
 const Post = ({ post, footerless }: Props) => {
   const navigation = useNavigation<useNavigationProp>();
@@ -22,7 +26,7 @@ const Post = ({ post, footerless }: Props) => {
         <Avatar.Image
           style={styles.avatar}
           size={45}
-          source={{ uri: post.user.avatar }}
+          source={post.user.avatar ? { uri: post.user.avatar } : userImage}
         />
         <View>
           <CustomText style={styles.name}> {post.user.name}</CustomText>
@@ -42,12 +46,7 @@ const Post = ({ post, footerless }: Props) => {
           {post.chip.label}
         </Button>
       </View>
-      <CustomText
-        //onPress={() => navigation.navigate("Question", { postId: post.id })}
-        style={styles.body}
-      >
-        {post.body}
-      </CustomText>
+      <CustomText style={styles.body}>{post.body}</CustomText>
       {!footerless && (
         <View style={styles.footer}>
           <View style={styles.buttons}>
@@ -68,10 +67,11 @@ const Post = ({ post, footerless }: Props) => {
               size={15}
               containerColor="white"
               iconColor="#444D6E"
-              icon="comment-text-multiple"
+              icon="share"
             />
           </View>
           <CustomText
+            onPress={() => navigation.navigate("Question", { postId: post.id })}
             variant="labelSmall"
             style={{ color: "#ffffff83" }}
           >

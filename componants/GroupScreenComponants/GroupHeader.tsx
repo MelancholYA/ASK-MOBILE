@@ -7,12 +7,12 @@ import {
 } from "react-native";
 import React from "react";
 import { Appbar, Avatar, Button, IconButton, Menu } from "react-native-paper";
-import { Igroup, joinGroup, leaveGroup } from "../redux/slices/groupsSlice";
-import { texture } from "../screens/Main screens/Welcome";
-import CustomText from "./CustomText";
+import { Igroup, joinGroup, leaveGroup } from "../../redux/slices/groupsSlice";
+import { texture } from "../../screens/Main screens/Welcome";
+import CustomText from "../Gloabls/CustomText";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { RootStackParamList } from "../Main";
+import { RootState } from "../../redux/store";
+import { RootStackParamList } from "../../Main";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type Props = {

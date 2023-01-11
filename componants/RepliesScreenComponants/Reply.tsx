@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Ianswer } from "../redux/slices/postsSlice";
+import { Ianswer } from "../../redux/slices/postsSlice";
 import { Avatar } from "react-native-paper";
-import CustomText from "./CustomText";
+import CustomText from "../Gloabls/CustomText";
 
 type Props = {
   data: {

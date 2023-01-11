@@ -1,9 +1,9 @@
 import { View, Text, FlatList } from "react-native";
 import React, { useEffect } from "react";
-import { NoData } from "./Posts";
+import { NoData } from "../HomeScreenComponants/Posts";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { setGroupsToDisplay } from "../redux/slices/groupsSlice";
+import { RootState } from "../../redux/store";
+import { setGroupsToDisplay } from "../../redux/slices/groupsSlice";
 import GroupCard from "./GroupCard";
 
 type Props = {};

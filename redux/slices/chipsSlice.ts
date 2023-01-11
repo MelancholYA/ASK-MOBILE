@@ -8,20 +8,21 @@ export interface Ichip {
 interface IfilterBody {
   page:
     | "homePageChips"
-    | "newQuestionChips"
+    | "newQuestionChip"
     | "groupFilterChips"
-    | "newGroupChips";
+    | "newGroupChip";
   chip: Ichip;
 }
 
 const initialState: {
   chips: Ichip[];
   homePageChips: Ichip[];
-  newQuestionChips: Ichip[];
+  newQuestionChip: Ichip;
   groupFilterChips: Ichip[];
-  newGroupChips: Ichip[];
+  newGroupChip: Ichip;
 } = {
   chips: [
+    { icon: "earth", label: "General" },
     {
       icon: "application-brackets",
       label: "Tech",
@@ -68,9 +69,9 @@ const initialState: {
     },
   ],
   homePageChips: [],
-  newQuestionChips: [],
+  newQuestionChip: { icon: "earth", label: "General" },
   groupFilterChips: [],
-  newGroupChips: [],
+  newGroupChip: { icon: "earth", label: "General" },
 };
 
 export const chipSlice = createSlice({
@@ -84,6 +85,10 @@ export const chipSlice = createSlice({
 
     setFilters: (state, action: PayloadAction<IfilterBody>) => {
       const { page } = action.payload;
+      if (page === "newGroupChip" || page === "newQuestionChip") {
+        state[page] = action.payload.chip;
+        return;
+      }
       if (
         state[page]
           .map((chip) => chip.label)

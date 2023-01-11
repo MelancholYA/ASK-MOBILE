@@ -19,19 +19,21 @@ import Home from "./screens/Main screens/Home";
 import Groups from "./screens/Main screens/Groups";
 import Messages from "./screens/Main screens/Messages";
 import Profile from "./screens/Main screens/Profile";
-import Question from "./screens/Main screens/Question";
+import Notifications from "./screens/Main screens/Notifications";
+
 //sub screens
-import Notifications from "./screens/sub screens/Notifications";
-import Answer from "./screens/sub screens/Answer";
+import Question from "./screens/sub screens/Question";
+import Replies from "./screens/sub screens/Replies";
 import Group from "./screens/sub screens/Group";
+import InviteFriend from "./screens/sub screens/InviteFriend";
+import NewPost from "./screens/sub screens/NewPost";
 
 //headers
-import NavBar from "./componants/NavBar";
-import CustomScreenHeader from "./componants/CustomScreenHeader";
+import NavBar from "./componants/Gloabls/NavBar";
+import CustomScreenHeader from "./componants/Gloabls/CustomScreenHeader";
 //tools
 import useNotification from "./helpers/useNotification";
 import { Snackbar } from "react-native-paper";
-import InviteFriend from "./screens/sub screens/InviteFriend";
 
 type Props = {};
 export type RootStackParamList = {
@@ -44,9 +46,10 @@ export type RootStackParamList = {
   Messages: undefined;
   Profile: undefined;
   Question: { postId: string };
-  Answer: { postId: string; answerId: string; focus?: boolean };
+  Replies: { postId: string; answerId: string; focus?: boolean };
   Group: { groupId: string };
   InviteAfriend: { groupId: string };
+  NewPost: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -149,7 +152,7 @@ const Main = (props: Props) => {
                   <CustomScreenHeader
                     navigation={props}
                     color="#D7D9DD"
-                    title="Answers"
+                    title="Question"
                   />
                 ),
               }}
@@ -167,8 +170,8 @@ const Main = (props: Props) => {
                   />
                 ),
               }}
-              name="Answer"
-              component={Answer}
+              name="Replies"
+              component={Replies}
             />
             <Stack.Screen
               options={{
@@ -190,6 +193,19 @@ const Main = (props: Props) => {
               }}
               name="InviteAfriend"
               component={InviteFriend}
+            />
+            <Stack.Screen
+              options={{
+                animation: "slide_from_bottom",
+                header: (props) => (
+                  <CustomScreenHeader
+                    navigation={props}
+                    title="New Question"
+                  />
+                ),
+              }}
+              name="NewPost"
+              component={NewPost}
             />
           </>
         )}

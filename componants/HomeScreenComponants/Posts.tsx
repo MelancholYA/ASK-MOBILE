@@ -1,11 +1,10 @@
 import { StyleSheet, FlatList, View } from "react-native";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { RootState } from "../../redux/store";
+import { setPostsToDisplay } from "../../redux/slices/postsSlice";
+import CustomText from "../Gloabls/CustomText";
 import Post from "./Post";
-import { ActivityIndicator, Text } from "react-native-paper";
-import { setPostsToDisplay } from "../redux/slices/postsSlice";
-import CustomText from "./CustomText";
 
 type Props = {};
 

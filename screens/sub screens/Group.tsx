@@ -3,13 +3,13 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 
-import CustomText from "../../componants/CustomText";
-import GroupHeader from "../../componants/GroupHeader";
+import CustomText from "../../componants/Gloabls/CustomText";
+import GroupHeader from "../../componants/GroupScreenComponants/GroupHeader";
 
 import { RootState } from "../../redux/store";
 import { RootStackParamList } from "../../Main";
-import Post from "../../componants/Post";
-import { NoData } from "../../componants/Posts";
+import Post from "../../componants/HomeScreenComponants/Post";
+import { NoData } from "../../componants/HomeScreenComponants/Posts";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Group">;
 

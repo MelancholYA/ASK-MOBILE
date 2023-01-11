@@ -1,0 +1,119 @@
+import { StyleSheet, FlatList, View } from "react-native";
+import React, { useState } from "react";
+import { Button, TextInput } from "react-native-paper";
+import Filter from "../../componants/Gloabls/Filter";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { addPost, setPosts } from "../../redux/slices/postsSlice";
+import { RootStackParamList } from "../../Main";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import useNotification from "../../helpers/useNotification";
+
+type Props = NativeStackScreenProps<RootStackParamList, "NewPost">;
+interface question {
+  body: string;
+  topic: string;
+}
+
+const NewPost = ({ navigation, route }: Props) => {
+  const { openNotification } = useNotification();
+  const chip = useSelector((state: RootState) => state.chips.newQuestionChip);
+  const dispatch = useDispatch();
+  const [question, setQuestion] = useState<question>({
+    body: "",
+    topic: chip.label,
+  });
+
+  const submit = () => {
+    if (!question.body) {
+      openNotification("Please fill the question body first");
+      return;
+    }
+    dispatch(
+      addPost({
+        ...question,
+        chip,
+        id: "gdfsg",
+        user: { id: "gdf", name: "user" },
+      })
+    );
+    navigation.navigate("Home");
+  };
+
+  return (
+    <View style={styles.container}>
+      <TextInput
+        value={question.body}
+        onChangeText={(e) => setQuestion((prev) => ({ ...prev, body: e }))}
+        theme={{ roundness: 7 }}
+        placeholder="What's on your mind ?"
+        multiline={true}
+        textColor="white"
+        style={styles.textInput}
+        mode="outlined"
+        placeholderTextColor="#C9CCD1"
+        activeOutlineColor="#ffffff"
+        outlineColor="#ffffff"
+      />
+      <View style={{ flex: 0.72 }}>
+        <Filter
+          title="Topic"
+          vertical
+          Case="newGroupChip"
+        />
+      </View>
+
+      <Button
+        mode="contained"
+        icon="share"
+        style={{
+          marginTop: "auto",
+          marginVertical: 10,
+          padding: 5,
+        }}
+        onPress={submit}
+      >
+        Create
+      </Button>
+    </View>
+  );
+};
+
+export default NewPost;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    flex: 1,
+    padding: 10,
+  },
+  textInput: {
+    height: 120,
+    marginBottom: 10,
+    backgroundColor: "#747B8A",
+    padding: 5,
+    color: "white",
+    flex: 0.2,
+  },
+  buttons: {
+    margin: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  button: {
+    backgroundColor: "#E9EAED",
+    padding: 18,
+    paddingVertical: 8,
+  },
+  selectedButton: {
+    padding: 15,
+    paddingVertical: 5,
+    borderWidth: 3,
+    borderColor: "#14213D",
+  },
+  optionsList: {
+    backgroundColor: "#E9EAED",
+    borderRadius: 5,
+    padding: 10,
+  },
+});

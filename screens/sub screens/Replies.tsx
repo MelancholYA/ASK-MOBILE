@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import { StyleSheet, FlatList, View } from "react-native";
 import { Avatar, TextInput } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import CustomText from "../../componants/CustomText";
-import Reply from "../../componants/Reply";
+import CustomText from "../../componants/Gloabls/CustomText";
+import Reply from "../../componants/RepliesScreenComponants/Reply";
 import { RootStackParamList } from "../../Main";
 import { replyToAnswer } from "../../redux/slices/postsSlice";
 import { RootState } from "../../redux/store";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Answer">;
+type Props = NativeStackScreenProps<RootStackParamList, "Replies">;
 
-const Answer = ({ navigation, route }: Props) => {
+const Replies = ({ navigation, route }: Props) => {
   const [replyBody, setReplyBody] = useState("");
   const dispatch = useDispatch();
   const { postId, answerId, focus } = route.params;
@@ -72,7 +72,7 @@ const Answer = ({ navigation, route }: Props) => {
   );
 };
 
-export default Answer;
+export default Replies;
 
 const styles = StyleSheet.create({
   answerBody: {

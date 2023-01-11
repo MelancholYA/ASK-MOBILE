@@ -8,19 +8,19 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { Igroup } from "../redux/slices/groupsSlice";
-import CustomText from "./CustomText";
+import { Igroup } from "../../redux/slices/groupsSlice";
+import CustomText from "../Gloabls/CustomText";
 import {
   Avatar,
   Button,
   IconButton,
   TouchableRipple,
 } from "react-native-paper";
-import { texture } from "../screens/Main screens/Welcome";
+import { texture } from "../../screens/Main screens/Welcome";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { RootState } from "../../redux/store";
 import { useNavigation } from "@react-navigation/native";
-import { useNavigationProp } from "./Post";
+import { useNavigationProp } from "../HomeScreenComponants/Post";
 
 type Props = {
   data: Igroup;
