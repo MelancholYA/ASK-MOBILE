@@ -20,7 +20,7 @@ import { texture } from "../../screens/Main screens/Welcome";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useNavigation } from "@react-navigation/native";
-import { useNavigationProp } from "../HomeScreenComponants/Post";
+import { useNavigationProp } from "../HomeScreenComponants/PostCard";
 
 type Props = {
   data: Igroup;

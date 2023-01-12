@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { setPostsToDisplay } from "../../redux/slices/postsSlice";
 import CustomText from "../Gloabls/CustomText";
-import Post from "./Post";
+import PostCard from "./PostCard";
 
 type Props = {};
 
@@ -39,10 +39,11 @@ const Posts = (props: Props) => {
       ListEmptyComponent={<NoData text="No posts are available" />}
       onEndReached={() => console.log("end")}
       style={styles.container}
+      contentContainerStyle={{ paddingBottom: 10 }}
       scrollEnabled
       data={postsToDisplay}
       renderItem={(item) => (
-        <Post
+        <PostCard
           post={item.item}
           key={item.item.id}
         />

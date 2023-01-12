@@ -75,7 +75,9 @@ const Post = ({ post, footerless }: Props) => {
             variant="labelSmall"
             style={{ color: "#ffffff83" }}
           >
-            {post.answersLength} answers
+            {post.answersLength
+              ? post.answersLength + " answers"
+              : "No answers yet"}
           </CustomText>
         </View>
       )}

@@ -90,30 +90,9 @@ const styles = StyleSheet.create({
   textInput: {
     height: 120,
     marginBottom: 10,
-    backgroundColor: "#747B8A",
+
     padding: 5,
     color: "white",
     flex: 0.2,
-  },
-  buttons: {
-    margin: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  button: {
-    backgroundColor: "#E9EAED",
-    padding: 18,
-    paddingVertical: 8,
-  },
-  selectedButton: {
-    padding: 15,
-    paddingVertical: 5,
-    borderWidth: 3,
-    borderColor: "#14213D",
-  },
-  optionsList: {
-    backgroundColor: "#E9EAED",
-    borderRadius: 5,
-    padding: 10,
   },
 });

@@ -5,11 +5,11 @@ import { useSelector } from "react-redux";
 
 import CustomText from "../../componants/Gloabls/CustomText";
 import GroupHeader from "../../componants/GroupScreenComponants/GroupHeader";
+import PostCard from "../../componants/HomeScreenComponants/PostCard";
+import { NoData } from "../../componants/HomeScreenComponants/Posts";
 
 import { RootState } from "../../redux/store";
 import { RootStackParamList } from "../../Main";
-import Post from "../../componants/HomeScreenComponants/Post";
-import { NoData } from "../../componants/HomeScreenComponants/Posts";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Group">;
 
@@ -35,7 +35,7 @@ const Group = ({ route, navigation }: Props) => {
         data={group.posts}
         ListEmptyComponent={<NoData text="No posts in this group yet" />}
         renderItem={(item) => (
-          <Post
+          <PostCard
             footerless={!group.joined}
             post={item.item}
             key={item.item.id}

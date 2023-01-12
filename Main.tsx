@@ -34,6 +34,7 @@ import CustomScreenHeader from "./componants/Gloabls/CustomScreenHeader";
 //tools
 import useNotification from "./helpers/useNotification";
 import { Snackbar } from "react-native-paper";
+import NewGroup from "./screens/sub screens/NewGroup";
 
 type Props = {};
 export type RootStackParamList = {
@@ -50,6 +51,7 @@ export type RootStackParamList = {
   Group: { groupId: string };
   InviteAfriend: { groupId: string };
   NewPost: undefined;
+  NewGroup: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -206,6 +208,19 @@ const Main = (props: Props) => {
               }}
               name="NewPost"
               component={NewPost}
+            />
+            <Stack.Screen
+              options={{
+                animation: "slide_from_bottom",
+                header: (props) => (
+                  <CustomScreenHeader
+                    navigation={props}
+                    title="New Group"
+                  />
+                ),
+              }}
+              name="NewGroup"
+              component={NewGroup}
             />
           </>
         )}

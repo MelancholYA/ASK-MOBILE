@@ -139,11 +139,15 @@ export const grouspSlice = createSlice({
         return group;
       });
     },
+    addGroup: (state, action: PayloadAction<Igroup>) => {
+      state.groups.unshift(action.payload);
+      return state;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setGroups, setGroupsToDisplay, joinGroup, leaveGroup } =
+export const { setGroups, setGroupsToDisplay, joinGroup, leaveGroup,addGroup } =
   grouspSlice.actions;
 
 export default grouspSlice.reducer;

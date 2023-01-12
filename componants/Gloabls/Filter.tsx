@@ -15,9 +15,10 @@ type Props = {
   shadow?: boolean;
   vertical?: boolean;
   title?: string;
+  setTopic?: (topic: string) => void;
 };
 
-const Filter = ({ Case, shadow, vertical, title }: Props) => {
+const Filter = ({ Case, shadow, vertical, title, setTopic }: Props) => {
   const chipsState = useSelector((state: RootState) => state.chips);
   const dispatch = useDispatch();
 
@@ -26,6 +27,14 @@ const Filter = ({ Case, shadow, vertical, title }: Props) => {
       return chipsState[Case].label === chip.label;
     }
     return chipsState[Case].map((chip) => chip.label).includes(chip.label);
+  };
+  const select = (chip: Ichip) => {
+    dispatch(setFilters({ chip, page: Case }));
+    if (Case === "newGroupChip" || Case === "newQuestionChip") {
+      if (setTopic) {
+        setTopic(chip.label);
+      }
+    }
   };
 
   return (
@@ -41,14 +50,12 @@ const Filter = ({ Case, shadow, vertical, title }: Props) => {
           horizontal={!vertical}
           renderItem={({ item }) => (
             <Button
-              onPress={() => dispatch(setFilters({ chip: item, page: Case }))}
+              onPress={() => select(item)}
               key={item.label}
               textColor={selected(item) ? "#FF9E00" : "white"}
               icon={item.icon}
-              style={[
-                chipStyle.container,
-                vertical && { margin: 5, padding: 10 },
-              ]}
+              contentStyle={{ padding: 5 }}
+              style={[chipStyle.container, vertical && { margin: 5 }]}
             >
               {item.label}
             </Button>

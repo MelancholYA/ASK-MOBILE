@@ -5,7 +5,7 @@ import CustomText from "../Gloabls/CustomText";
 import { Ianswer } from "../../redux/slices/postsSlice";
 import { useNavigation } from "@react-navigation/native";
 
-import { useNavigationProp } from "../HomeScreenComponants/Post";
+import { useNavigationProp } from "../HomeScreenComponants/PostCard";
 
 type Props = {
   data: Ianswer;

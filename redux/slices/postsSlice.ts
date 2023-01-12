@@ -242,8 +242,7 @@ export const postsSlice = createSlice({
       });
     },
     addPost: (state, action: PayloadAction<Ipost>) => {
-      state.posts.push(action.payload);
-      state.posts.reverse();
+      state.posts.unshift(action.payload);
       return state;
     },
   },

@@ -6,14 +6,16 @@ import {
   ImageBackground,
 } from "react-native";
 import React from "react";
-import { Appbar, Avatar, Button, IconButton, Menu } from "react-native-paper";
-import { Igroup, joinGroup, leaveGroup } from "../../redux/slices/groupsSlice";
+import { Appbar, Avatar, FAB, IconButton, Menu } from "react-native-paper";
+import { useDispatch, useSelector } from "react-redux";
+
 import { texture } from "../../screens/Main screens/Welcome";
 import CustomText from "../Gloabls/CustomText";
-import { useDispatch, useSelector } from "react-redux";
+
 import { RootState } from "../../redux/store";
 import { RootStackParamList } from "../../Main";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Igroup, joinGroup, leaveGroup } from "../../redux/slices/groupsSlice";
 
 type Props = {
   group: Igroup;
@@ -39,10 +41,10 @@ const GroupMenu = ({
       }}
       onDismiss={() => setVisible(false)}
       anchor={
-        <IconButton
-          mode="contained"
-          containerColor="white"
-          size={20}
+        <FAB
+          color="black"
+          style={{ backgroundColor: "white", margin: 5 }}
+          customSize={40}
           icon={visible ? "close-thick" : "dots-vertical"}
           onPress={() => setVisible(true)}
         />
