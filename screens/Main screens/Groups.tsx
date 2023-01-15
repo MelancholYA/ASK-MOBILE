@@ -4,7 +4,7 @@ import Filter from "../../componants/Gloabls/Filter";
 import GroupsContainer from "../../componants/GroupsScreenComponants/GroupsContainer";
 import { FAB } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../Main";
+import { RootStackParamList } from "../../navigation/Stack";
 
 interface Props extends NativeStackScreenProps<RootStackParamList, "Groups"> {}
 

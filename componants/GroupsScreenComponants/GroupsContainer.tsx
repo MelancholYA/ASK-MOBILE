@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import React, { useEffect } from "react";
 import { NoData } from "../HomeScreenComponants/Posts";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,16 +22,15 @@ const GroupsContainer = (props: Props) => {
     <FlatList
       ListEmptyComponent={<NoData text="No posts are available" />}
       onEndReached={() => console.log("end")}
-      scrollEnabled
       data={groupsToDesplay}
-      style={{ padding: 10 }}
+      contentContainerStyle={{
+        paddingHorizontal: 10,
+      }}
       renderItem={(item) => (
-        <>
-          <GroupCard
-            data={item.item}
-            key={item.item.id}
-          />
-        </>
+        <GroupCard
+          data={item.item}
+          key={item.item.id}
+        />
       )}
     />
   );

@@ -3,8 +3,8 @@ import React from "react";
 import Filter from "../../componants/Gloabls/Filter";
 import Posts from "../../componants/HomeScreenComponants/Posts";
 import { FAB } from "react-native-paper";
-import { RootStackParamList } from "../../Main";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/Stack";
 
 interface Props extends NativeStackScreenProps<RootStackParamList, "Home"> {}
 

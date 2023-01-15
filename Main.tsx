@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -10,51 +9,18 @@ import * as Font from "expo-font";
 import { RootState } from "./redux/store";
 import { setToken } from "./redux/slices/tokenSlice";
 
-//screens
-//main screens
-import Welcome from "./screens/Main screens/Welcome";
-import Login from "./screens/Main screens/Login";
-import Register from "./screens/Main screens/Register";
-import Home from "./screens/Main screens/Home";
-import Groups from "./screens/Main screens/Groups";
-import Messages from "./screens/Main screens/Messages";
-import Profile from "./screens/Main screens/Profile";
-import Notifications from "./screens/Main screens/Notifications";
-
-//sub screens
-import Question from "./screens/sub screens/Question";
-import Replies from "./screens/sub screens/Replies";
-import Group from "./screens/sub screens/Group";
-import InviteFriend from "./screens/sub screens/InviteFriend";
-import NewPost from "./screens/sub screens/NewPost";
-
 //headers
 import NavBar from "./componants/Gloabls/NavBar";
-import CustomScreenHeader from "./componants/Gloabls/CustomScreenHeader";
+
 //tools
 import useNotification from "./helpers/useNotification";
 import { Snackbar } from "react-native-paper";
-import NewGroup from "./screens/sub screens/NewGroup";
+import MainScreens from "./navigation/mainScreens";
+import AuthScreens from "./navigation/AuthScreens";
+import { Stack } from "./navigation/Stack";
 
 type Props = {};
-export type RootStackParamList = {
-  Welcome: undefined;
-  Login: undefined;
-  Register: undefined;
-  Home: undefined;
-  Groups: undefined;
-  Notifications: undefined;
-  Messages: undefined;
-  Profile: undefined;
-  Question: { postId: string };
-  Replies: { postId: string; answerId: string; focus?: boolean };
-  Group: { groupId: string };
-  InviteAfriend: { groupId: string };
-  NewPost: undefined;
-  NewGroup: undefined;
-};
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
 SplashScreen.preventAutoHideAsync();
 
 const Main = (props: Props) => {
@@ -110,121 +76,10 @@ const Main = (props: Props) => {
           },
         }}
       >
-        {!token ? (
-          <>
-            <Stack.Screen
-              name="Welcome"
-              component={Welcome}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-            />
-            <Stack.Screen
-              name="Register"
-              component={Register}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="Home"
-              component={Home}
-            />
-            <Stack.Screen
-              name="Groups"
-              component={Groups}
-            />
-            <Stack.Screen
-              name="Notifications"
-              component={Notifications}
-            />
-            <Stack.Screen
-              name="Messages"
-              component={Messages}
-            />
-            <Stack.Screen
-              name="Profile"
-              component={Profile}
-            />
-            <Stack.Screen
-              options={{
-                animation: "flip",
-                header: (props) => (
-                  <CustomScreenHeader
-                    navigation={props}
-                    color="#D7D9DD"
-                    title="Question"
-                  />
-                ),
-              }}
-              name="Question"
-              component={Question}
-            />
-            <Stack.Screen
-              options={{
-                animation: "flip",
-                header: (props) => (
-                  <CustomScreenHeader
-                    navigation={props}
-                    color="#D7D9DD"
-                    title="Replies"
-                  />
-                ),
-              }}
-              name="Replies"
-              component={Replies}
-            />
-            <Stack.Screen
-              options={{
-                animation: "flip",
-                headerShown: false,
-              }}
-              name="Group"
-              component={Group}
-            />
-            <Stack.Screen
-              options={{
-                animation: "flip",
-                header: (props) => (
-                  <CustomScreenHeader
-                    navigation={props}
-                    title="Invite a friend"
-                  />
-                ),
-              }}
-              name="InviteAfriend"
-              component={InviteFriend}
-            />
-            <Stack.Screen
-              options={{
-                animation: "slide_from_bottom",
-                header: (props) => (
-                  <CustomScreenHeader
-                    navigation={props}
-                    title="New Question"
-                  />
-                ),
-              }}
-              name="NewPost"
-              component={NewPost}
-            />
-            <Stack.Screen
-              options={{
-                animation: "slide_from_bottom",
-                header: (props) => (
-                  <CustomScreenHeader
-                    navigation={props}
-                    title="New Group"
-                  />
-                ),
-              }}
-              name="NewGroup"
-              component={NewGroup}
-            />
-          </>
-        )}
+        {!token ? AuthScreens({ Stack }) : MainScreens({ Stack })}
       </Stack.Navigator>
+
+      {/* Notification */}
       <Snackbar
         action={{
           label: "",

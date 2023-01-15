@@ -9,7 +9,7 @@ import PostCard from "../../componants/HomeScreenComponants/PostCard";
 import { NoData } from "../../componants/HomeScreenComponants/Posts";
 
 import { RootState } from "../../redux/store";
-import { RootStackParamList } from "../../Main";
+import { RootStackParamList } from "../../navigation/Stack";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Group">;
 

@@ -7,8 +7,8 @@ import CustomText from "../Gloabls/CustomText";
 import { useNavigation } from "@react-navigation/native";
 
 import { Ipost } from "../../redux/slices/postsSlice";
-import { RootStackParamList } from "../../Main";
 import { chipStyle } from "../Gloabls/Filter";
+import { RootStackParamList } from "../../navigation/Stack";
 
 type Props = {
   post: Ipost;

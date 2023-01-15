@@ -1,12 +1,15 @@
 import React from "react";
 import { StyleSheet, FlatList, View } from "react-native";
-import { RootStackParamList } from "../../Main";
+import { Button } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import { useSelector } from "react-redux";
+
 import { NoData } from "../../componants/HomeScreenComponants/Posts";
 import FriendCard from "../../componants/InviteFriendScreenComponant/FriendCard";
-import { Button } from "react-native-paper";
-import { useSelector } from "react-redux";
+
 import { RootState } from "../../redux/store";
+import { RootStackParamList } from "../../navigation/Stack";
 
 interface Props
   extends NativeStackScreenProps<RootStackParamList, "InviteAfriend"> {}

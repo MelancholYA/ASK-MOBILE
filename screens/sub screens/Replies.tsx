@@ -5,7 +5,7 @@ import { Avatar, TextInput } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import CustomText from "../../componants/Gloabls/CustomText";
 import Reply from "../../componants/RepliesScreenComponants/Reply";
-import { RootStackParamList } from "../../Main";
+import { RootStackParamList } from "../../navigation/Stack";
 import { replyToAnswer } from "../../redux/slices/postsSlice";
 import { RootState } from "../../redux/store";
 

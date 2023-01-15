@@ -3,8 +3,8 @@ import { View, StyleSheet, ImageBackground, Text } from "react-native";
 import { useTheme, Button } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../Main";
 import CustomText from "../../componants/Gloabls/CustomText";
+import { RootStackParamList } from "../../navigation/Stack";
 
 export const texture = require("../../assets/texture.jpg");
 type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;

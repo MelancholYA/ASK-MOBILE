@@ -4,6 +4,7 @@ import noteReducer from "./slices/noteSlice";
 import chipReducer from "./slices/chipsSlice";
 import postsReducer from "./slices/postsSlice";
 import groupsReducer from "./slices/groupsSlice";
+import chatsReducer from "./slices/MessagesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     chips: chipReducer,
     posts: postsReducer,
     groups: groupsReducer,
+    chats: chatsReducer,
   },
 });
 

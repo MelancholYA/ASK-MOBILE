@@ -32,7 +32,8 @@
     "react-redux": "^8.0.5",
     "react-native-pager-view": "6.0.1",
     "expo-document-picker": "~11.0.1",
-    "expo-image-picker": "~14.0.2"
+    "expo-image-picker": "~14.0.2",
+    "react-native-reanimated": "~2.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

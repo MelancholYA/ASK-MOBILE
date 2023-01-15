@@ -1,15 +1,18 @@
-import { StyleSheet, ImageBackground, View, Image } from "react-native";
 import React, { useState } from "react";
+import { StyleSheet, ImageBackground, View, Image } from "react-native";
 import { Button, TextInput } from "react-native-paper";
+
 import Filter from "../../componants/Gloabls/Filter";
 import ImagePicker from "../../componants/Gloabls/ImagePicker";
-import { texture } from "../Main screens/Welcome";
-import { ImagePickerAsset } from "expo-image-picker/build/ImagePicker.types";
-import useNotification from "../../helpers/useNotification";
+
 import { useDispatch } from "react-redux";
-import { addGroup, Igroup, setGroups } from "../../redux/slices/groupsSlice";
+import useNotification from "../../helpers/useNotification";
+import { RootStackParamList } from "../../navigation/Stack";
+import { addGroup, Igroup } from "../../redux/slices/groupsSlice";
+
+import { texture } from "../Main screens/Welcome";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../Main";
+import { ImagePickerAsset } from "expo-image-picker/build/ImagePicker.types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "NewGroup">;
 

@@ -3,13 +3,13 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { RootStackParamList } from "../../Main";
 import { chipStyle } from "../../componants/Gloabls/Filter";
 import CustomText from "../../componants/Gloabls/CustomText";
 import AnswerInput from "../../componants/QuestionScreenComponants/AnswerInput";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import AnswerCard from "../../componants/QuestionScreenComponants/AnswerCard";
+import { RootStackParamList } from "../../navigation/Stack";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question">;
 

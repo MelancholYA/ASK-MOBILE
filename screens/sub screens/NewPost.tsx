@@ -4,10 +4,10 @@ import { Button, TextInput } from "react-native-paper";
 import Filter from "../../componants/Gloabls/Filter";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { addPost, setPosts } from "../../redux/slices/postsSlice";
-import { RootStackParamList } from "../../Main";
+import { addPost } from "../../redux/slices/postsSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import useNotification from "../../helpers/useNotification";
+import { RootStackParamList } from "../../navigation/Stack";
 
 type Props = NativeStackScreenProps<RootStackParamList, "NewPost">;
 interface question {

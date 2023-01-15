@@ -1,21 +1,8 @@
-import {
-  ImageBackground,
-  Pressable,
-  StyleSheet,
-  Text,
-  Touchable,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { ImageBackground, Pressable, StyleSheet, View } from "react-native";
 import React from "react";
 import { Igroup } from "../../redux/slices/groupsSlice";
 import CustomText from "../Gloabls/CustomText";
-import {
-  Avatar,
-  Button,
-  IconButton,
-  TouchableRipple,
-} from "react-native-paper";
+import { Avatar, IconButton } from "react-native-paper";
 import { texture } from "../../screens/Main screens/Welcome";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -32,15 +19,20 @@ const GroupCard = ({ data }: Props) => {
     (chip) => chip.label === data.topic
   )[0];
   return (
-    <Pressable onPress={() => navigate.navigate("Group", { groupId: data.id })}>
-      <View
-        style={{
-          borderRadius: 5,
-          overflow: "hidden",
-          marginBottom: 10,
-        }}
+    <View
+      style={{
+        borderRadius: 5,
+        width: "100%",
+        aspectRatio: 16 / 6,
+        marginBottom: 10,
+        overflow: "hidden",
+      }}
+    >
+      <Pressable
+        onPress={() => navigate.navigate("Group", { groupId: data.id })}
       >
         <ImageBackground
+          style={{ aspectRatio: 16 / 6 }}
           source={data.background ? { uri: data.background } : texture}
         >
           <View style={styles.container}>
@@ -86,7 +78,7 @@ const GroupCard = ({ data }: Props) => {
             </View>
 
             <CustomText
-              numberOfLines={4}
+              numberOfLines={2}
               color="white"
               variant="bodyMedium"
               style={{ padding: 10 }}
@@ -95,8 +87,8 @@ const GroupCard = ({ data }: Props) => {
             </CustomText>
           </View>
         </ImageBackground>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 };
 
@@ -104,5 +96,5 @@ export default GroupCard;
 
 const styles = StyleSheet.create({
   header: { flexDirection: "row", alignItems: "center" },
-  container: { padding: 10, backgroundColor: "#00000099" },
+  container: { padding: 10, backgroundColor: "#00000099", aspectRatio: 16 / 6 },
 });

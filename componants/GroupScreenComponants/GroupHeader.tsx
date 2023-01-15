@@ -13,9 +13,9 @@ import { texture } from "../../screens/Main screens/Welcome";
 import CustomText from "../Gloabls/CustomText";
 
 import { RootState } from "../../redux/store";
-import { RootStackParamList } from "../../Main";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Igroup, joinGroup, leaveGroup } from "../../redux/slices/groupsSlice";
+import { RootStackParamList } from "../../navigation/Stack";
 
 type Props = {
   group: Igroup;
