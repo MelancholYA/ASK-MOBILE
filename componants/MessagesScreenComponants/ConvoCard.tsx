@@ -1,10 +1,11 @@
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { Iconvo } from "../../redux/slices/MessagesSlice";
-import { Avatar } from "react-native-paper";
+import { Avatar, Button, Modal, Portal } from "react-native-paper";
 import { useNavigationProp, userImage } from "../HomeScreenComponants/PostCard";
 import CustomText from "../Gloabls/CustomText";
+import ConvoOptions from "./ConvoOptions";
 
 interface Props {
   data: Iconvo;
@@ -12,16 +13,48 @@ interface Props {
 
 const ConvoCard = ({ data }: Props) => {
   const navigation = useNavigation<useNavigationProp>();
+  const [showModel, setShowModel] = useState(false);
+
+  const handlePress = () => {
+    navigation.navigate("Chat", {
+      convoId: data.id,
+      partnerName: data.partner.name,
+    });
+  };
+  const handleLongPress = () => {
+    setShowModel(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModel(false);
+  };
+
   return (
     <Pressable
       style={styles.container}
-      onPress={() =>
-        navigation.navigate("Chat", {
-          convoId: data.id,
-          partnerName: data.partner.name,
-        })
-      }
+      onPress={handlePress}
+      onLongPress={handleLongPress}
     >
+      <Portal>
+        <Modal
+          visible={showModel}
+          onDismiss={handleModalClose}
+          contentContainerStyle={styles.model}
+        >
+          <ConvoOptions
+            convoId={data.id}
+            userId={data.partner.id}
+          />
+          <Button
+            onPress={handleModalClose}
+            style={styles.btn}
+            contentStyle={styles.btnContnt}
+            mode="contained"
+          >
+            Cancel
+          </Button>
+        </Modal>
+      </Portal>
       <Avatar.Image
         size={50}
         source={data.partner.avatar ? { uri: data.partner.avatar } : userImage}
@@ -60,5 +93,17 @@ const styles = StyleSheet.create({
   subContainer: {
     marginLeft: 15,
     justifyContent: "space-evenly",
+  },
+  model: {
+    margin: 10,
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 5,
+  },
+  btn: {
+    margin: 5,
+  },
+  btnContnt: {
+    padding: 10,
   },
 });

@@ -20,7 +20,7 @@ const GroupsContainer = (props: Props) => {
 
   return (
     <FlatList
-      ListEmptyComponent={<NoData text="No posts are available" />}
+      ListEmptyComponent={<NoData text="No groups are available" />}
       onEndReached={() => console.log("end")}
       data={groupsToDesplay}
       contentContainerStyle={{

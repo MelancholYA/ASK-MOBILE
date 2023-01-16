@@ -78,12 +78,13 @@ export const messagesSlice = createSlice({
       return state.concat(action.payload);
     },
     addMessage: (state, action: PayloadAction<addMessageAction>) => {
-      return state.map((convo) => {
+      state.map((convo) => {
         if (convo.id === action.payload.convoId) {
           convo.messages.push(action.payload);
         }
         return convo;
       });
+      return;
     },
   },
 });
