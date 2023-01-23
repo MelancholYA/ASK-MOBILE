@@ -52,8 +52,8 @@ const NewPost = ({ navigation, route }: Props) => {
         style={styles.textInput}
         mode="outlined"
         placeholderTextColor="#C9CCD1"
-        activeOutlineColor="#ffffff"
-        outlineColor="#ffffff"
+        activeOutlineColor="#aaaaaa"
+        outlineColor="#c9c9c9"
       />
       <View style={{ flex: 0.72 }}>
         <Filter

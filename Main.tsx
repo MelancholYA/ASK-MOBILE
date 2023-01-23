@@ -41,6 +41,7 @@ const Main = (props: Props) => {
           "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
         });
         const token = await AsyncStorage.getItem("voteAppToken");
+
         dispatch(setToken(token));
       } catch (e) {
         console.warn(e);

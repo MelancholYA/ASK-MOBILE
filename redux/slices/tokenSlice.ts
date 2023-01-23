@@ -6,6 +6,8 @@ export interface Iuser {
   name: string;
   email: string;
   avatar?: string;
+  cover?: string;
+  bio: string;
   friends?: Iuser[];
 }
 

@@ -66,7 +66,10 @@ const ConvoCard = ({ data }: Props) => {
         >
           {data.partner.name}
         </CustomText>
-        <CustomText variant="labelMedium">
+        <CustomText
+          variant="labelMedium"
+          bold={data.messages[0].unseen}
+        >
           {data.messages[0].message}
         </CustomText>
       </View>
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: "#d3d6db",
+    backgroundColor: "#e4e4e4",
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.8,

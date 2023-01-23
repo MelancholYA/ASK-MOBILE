@@ -241,6 +241,10 @@ export const postsSlice = createSlice({
         return post;
       });
     },
+    deletePost: (state, action: PayloadAction<string>) => {
+      let newState = state.posts.filter((post) => post.id !== action.payload);
+      state.posts = newState;
+    },
     addPost: (state, action: PayloadAction<Ipost>) => {
       state.posts.unshift(action.payload);
       return state;
@@ -254,6 +258,7 @@ export const {
   answerQuestion,
   replyToAnswer,
   addPost,
+  deletePost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

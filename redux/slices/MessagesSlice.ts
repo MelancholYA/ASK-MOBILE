@@ -6,6 +6,7 @@ export interface Imessage {
   id: string;
   author: "ME" | "PARTNER";
   message: string;
+  unseen?: boolean;
 }
 
 export interface Iconvo {
@@ -26,6 +27,7 @@ const initialState: Iconvo[] = [
         author: "ME",
         id: "message 1",
         message: "Hi",
+        unseen: true,
       },
       {
         author: "PARTNER",
