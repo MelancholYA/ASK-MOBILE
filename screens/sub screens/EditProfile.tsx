@@ -23,21 +23,29 @@ const EditProfile = (props: Props) => {
   const { openNotification } = useNotification();
   const [visible, setVisible] = useState(false);
   const user = useSelector((state: RootState) => state.token.user);
-  const [userData, setUserData] = useState(
-    user || { id: "", name: "", email: "", avatar: "", cover: "", bio: "" }
-  );
+  const [userData, setUserData] = useState(user);
   const [currentPassword, setCurrentPassword] = useState("");
 
   const submitData = async () => {
-    //send data tp server
-    console.log("changes made and finished");
-    const serverResponse = { ...userData, currentPassword };
-    delete userData.password;
-    dispatch(setUser(serverResponse));
+    if (userData) {
+      //send data tp server with currentPassword
+      // server will respond with new userdata
+      const serverResponse = { ...userData };
+      serverResponse!.password = "";
+      setCurrentPassword("");
+      dispatch(setUser(serverResponse));
+      setUserData(serverResponse);
+      openNotification("Changes were saved succesfully");
+    }
   };
   const save = () => {
-    const emailChanged = user?.email !== userData.email;
-    const passwordChanged = Boolean(user?.password);
+    if (JSON.stringify(user) === JSON.stringify(userData)) {
+      console.log("same");
+      return;
+    }
+    const emailChanged = user?.email !== userData?.email;
+    const passwordChanged = user?.password !== ("" || null);
+
     if (emailChanged || passwordChanged) {
       setVisible(true);
       return;
@@ -110,14 +118,14 @@ const EditProfile = (props: Props) => {
                 size={30}
                 aspect={[1, 1]}
                 setImage={(e) => {
-                  setUserData((prev) => ({ ...prev, avatar: e.uri }));
+                  setUserData({ ...userData, avatar: e.uri });
                 }}
               />
             </ImageBackground>
             <ImagePicker
               aspect={[16, 6]}
               setImage={(e) => {
-                setUserData((prev) => ({ ...prev, cover: e.uri }));
+                setUserData({ ...userData, cover: e.uri });
               }}
             />
           </ImageBackground>
@@ -125,7 +133,7 @@ const EditProfile = (props: Props) => {
           <TextInput
             style={styles.input}
             value={userData.name}
-            onChangeText={(e) => setUserData((prev) => ({ ...prev, name: e }))}
+            onChangeText={(e) => setUserData({ ...userData, name: e })}
             label="User Name"
             mode="outlined"
             theme={{ roundness: 7 }}
@@ -135,7 +143,7 @@ const EditProfile = (props: Props) => {
           <TextInput
             style={styles.input}
             value={userData.bio}
-            onChangeText={(e) => setUserData((prev) => ({ ...prev, bio: e }))}
+            onChangeText={(e) => setUserData({ ...userData, bio: e })}
             label="Bio"
             multiline
             numberOfLines={3}
@@ -147,7 +155,7 @@ const EditProfile = (props: Props) => {
           <TextInput
             style={styles.input}
             value={userData.email}
-            onChangeText={(e) => setUserData((prev) => ({ ...prev, email: e }))}
+            onChangeText={(e) => setUserData({ ...userData, email: e })}
             label="User Email"
             mode="outlined"
             theme={{ roundness: 7 }}
@@ -158,9 +166,7 @@ const EditProfile = (props: Props) => {
             style={styles.input}
             value={userData.password}
             secureTextEntry
-            onChangeText={(e) =>
-              setUserData((prev) => ({ ...prev, password: e }))
-            }
+            onChangeText={(e) => setUserData({ ...userData, password: e })}
             label="User Password"
             mode="outlined"
             theme={{ roundness: 7 }}
