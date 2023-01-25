@@ -14,6 +14,7 @@ import NewPost from "../screens/sub screens/NewPost";
 import NewGroup from "../screens/sub screens/NewGroup";
 import Chat from "../screens/sub screens/Chat";
 import { StackType } from "./Stack";
+import EditProfile from "../screens/sub screens/EditProfile";
 
 interface Props {
   Stack: StackType;
@@ -132,6 +133,22 @@ const mainScreens = ({ Stack }: Props) => {
         }}
         name="Chat"
         component={Chat}
+      />
+      <Stack.Screen
+        options={{
+          animation: "slide_from_bottom",
+          header: (props) => {
+            const params = props.route.params as { partnerName: string };
+            return (
+              <CustomScreenHeader
+                navigation={props}
+                title={"Edit profile"}
+              />
+            );
+          },
+        }}
+        name="EditProfile"
+        component={EditProfile}
       />
     </>
   );

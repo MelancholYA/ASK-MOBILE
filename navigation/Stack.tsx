@@ -16,6 +16,7 @@ export type RootStackParamList = {
   NewPost: undefined;
   NewGroup: undefined;
   Chat: { convoId: string; partnerName: string };
+  EditProfile: undefined;
 };
 
 export const Stack = createNativeStackNavigator<RootStackParamList>();

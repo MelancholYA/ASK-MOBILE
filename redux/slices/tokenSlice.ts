@@ -9,15 +9,17 @@ export interface Iuser {
   cover?: string;
   bio: string;
   friends?: Iuser[];
+  password?: string;
 }
 
 export interface tokenState {
   value: string | null;
-  user?: Iuser;
+  user: Iuser | null;
 }
 
 const initialState: tokenState = {
   value: null,
+  user: null,
 };
 
 export const tokenSlice = createSlice({
@@ -27,7 +29,7 @@ export const tokenSlice = createSlice({
     setToken: (state, action: PayloadAction<string | null>) => {
       state.value = action.payload;
     },
-    setUser: (state, action: PayloadAction<Iuser>) => {
+    setUser: (state, action: PayloadAction<Iuser | null>) => {
       state.user = action.payload;
     },
   },

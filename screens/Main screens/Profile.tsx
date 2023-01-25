@@ -31,35 +31,37 @@ const Profile = ({ navigation }: Props) => {
   );
 
   return (
-    <View style={styles.container}>
-      <ProfileHeader user={user} />
-      <View style={styles.buttonsContainer}>
-        <Button
-          textColor="#FCA311"
-          style={styles.button}
-          icon="plus"
-          mode="contained"
-          onPress={() => navigation.navigate("NewPost")}
-        >
-          Post a question
-        </Button>
-        <Button
-          textColor="#FCA311"
-          icon="account-edit"
-          style={styles.button}
-          mode="contained"
-          onPress={() => navigation.navigate("Home")}
-        >
-          Edit Profile
-        </Button>
+    user && (
+      <View style={styles.container}>
+        <ProfileHeader user={user} />
+        <View style={styles.buttonsContainer}>
+          <Button
+            textColor="#FCA311"
+            style={styles.button}
+            icon="plus"
+            mode="contained"
+            onPress={() => navigation.navigate("NewPost")}
+          >
+            Post a question
+          </Button>
+          <Button
+            textColor="#FCA311"
+            icon="account-edit"
+            style={styles.button}
+            mode="contained"
+            onPress={() => navigation.navigate("EditProfile")}
+          >
+            Edit Profile
+          </Button>
+        </View>
+        <FlatList
+          ListEmptyComponent={<NoData text="You don't have any posts yet" />}
+          contentContainerStyle={{ padding: 10 }}
+          data={posts}
+          renderItem={({ item }) => <ProfilePost data={item} />}
+        />
       </View>
-      <FlatList
-        ListEmptyComponent={<NoData text="You don't have any posts yet" />}
-        contentContainerStyle={{ padding: 10 }}
-        data={posts}
-        renderItem={({ item }) => <ProfilePost data={item} />}
-      />
-    </View>
+    )
   );
 };
 

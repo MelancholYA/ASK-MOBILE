@@ -15,12 +15,12 @@ const ProfileHeader = ({ user }: Props) => {
   return (
     <View style={[styles.shadow, { paddingBottom: 10 }]}>
       <ImageBackground
-        source={user?.cover ? { uri: user.cover } : texture}
+        source={user.cover ? { uri: user.cover } : texture}
         style={styles.cover}
       >
         <View style={[styles.avatarContainer, styles.shadow]}>
           <ImageBackground
-            source={user?.avatar ? { uri: user.avatar } : userImage}
+            source={user.avatar ? { uri: user.avatar } : userImage}
             style={styles.avatar}
           />
         </View>
@@ -31,13 +31,9 @@ const ProfileHeader = ({ user }: Props) => {
           style={{ fontSize: 16, marginBottom: 5 }}
           bold
         >
-          {user?.name}
-          Alex bartolini
+          {user.name}
         </CustomText>
-        <CustomText>
-          {user?.bio}Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-          Adipisci, provident laboriosam reprehenderit iusto earum vel.
-        </CustomText>
+        <CustomText>{user.bio}</CustomText>
       </View>
     </View>
   );
@@ -53,6 +49,8 @@ const styles = StyleSheet.create({
   avatar: {
     width: 80,
     aspectRatio: 1,
+    borderRadius: 100,
+    overflow: "hidden",
   },
   avatarContainer: {
     marginLeft: 20,

@@ -63,6 +63,10 @@ const useAuth = () => {
       .then(async (res) => {
         try {
           await AsyncStorage.setItem("voteAppToken", res.data.token);
+          await AsyncStorage.setItem(
+            "voteAppUserData",
+            JSON.stringify(res.data.user)
+          );
           dispatch(setToken(res.data.token));
           dispatch(setUser(res.data.user));
           setLoading(false);
@@ -104,6 +108,7 @@ const useAuth = () => {
       .then(async (res) => {
         try {
           await AsyncStorage.setItem("voteAppToken", res.data.token);
+          await AsyncStorage.setItem("voteAppUserData", res.data.user);
           dispatch(setToken(res.data.token));
           dispatch(setUser(res.data.user));
           setLoading(false);

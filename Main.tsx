@@ -7,7 +7,7 @@ import * as Font from "expo-font";
 
 //redux
 import { RootState } from "./redux/store";
-import { setToken } from "./redux/slices/tokenSlice";
+import { setToken, setUser } from "./redux/slices/tokenSlice";
 
 //headers
 import NavBar from "./componants/Gloabls/NavBar";
@@ -41,7 +41,10 @@ const Main = (props: Props) => {
           "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
         });
         const token = await AsyncStorage.getItem("voteAppToken");
-
+        const user = await AsyncStorage.getItem("voteAppUserData");
+        if (user) {
+          dispatch(setUser(JSON.parse(user)));
+        }
         dispatch(setToken(token));
       } catch (e) {
         console.warn(e);

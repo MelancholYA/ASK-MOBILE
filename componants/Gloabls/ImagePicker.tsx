@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, ViewProps } from "react-native";
 import { launchImageLibraryAsync, MediaTypeOptions } from "expo-image-picker";
 import { ImagePickerAsset } from "expo-image-picker/build/ImagePicker.types";
-import { FAB, IconButton } from "react-native-paper";
+import { FAB } from "react-native-paper";
 
 interface Props extends ViewProps {
   setImage: (image: ImagePickerAsset) => void;
