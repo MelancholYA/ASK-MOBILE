@@ -69,8 +69,10 @@ const useAuth = () => {
           );
           dispatch(setToken(res.data.token));
           dispatch(setUser(res.data.user));
+          console.log({ res });
           setLoading(false);
         } catch (error) {
+          console.log({ error });
           openNotification(errMessage(error));
           setLoading(false);
         }
