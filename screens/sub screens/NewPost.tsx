@@ -48,7 +48,6 @@ const NewPost = ({ navigation, route }: Props) => {
         theme={{ roundness: 7 }}
         placeholder="What's on your mind ?"
         multiline={true}
-        textColor="white"
         style={styles.textInput}
         mode="outlined"
         placeholderTextColor="#C9CCD1"
