@@ -16,6 +16,7 @@ import { RootState } from "../../redux/store";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Igroup, joinGroup, leaveGroup } from "../../redux/slices/groupsSlice";
 import { RootStackParamList } from "../../navigation/Stack";
+import CustomImageBackground from "../Gloabls/CustomImageBackground";
 
 type Props = {
   group: Igroup;
@@ -90,11 +91,12 @@ const GroupHeader = ({ group, navigation }: Props) => {
             color="white"
             size={30}
           />
-          <Avatar.Image
-            style={styles.headerAvatar}
-            size={50}
-            source={group.avatar ? { uri: group.avatar } : texture}
-          />
+          <View style={styles.avatarContainer}>
+            <CustomImageBackground
+              style={styles.headerAvatar}
+              source={group.avatar ? { uri: group.avatar } : texture}
+            />
+          </View>
         </View>
         <View style={styles.body}>
           <View style={styles.BodyHeader}>
@@ -151,10 +153,18 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
   },
-  headerAvatar: {
+  avatarContainer: {
+    justifyContent: "center",
+    alignItems: "center",
     position: "absolute",
+    top: 20,
+    width: "100%",
+  },
+  headerAvatar: {
     width: 50,
-    left: Dimensions.get("screen").width / 2 - 25,
+    aspectRatio: 1,
+    borderRadius: 100,
+    overflow: "hidden",
   },
   body: { padding: 15 },
   BodyHeader: { flexDirection: "row", alignItems: "center" },

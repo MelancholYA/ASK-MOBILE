@@ -4,6 +4,7 @@ import CustomText from "../Gloabls/CustomText";
 import { Iuser } from "../../redux/slices/tokenSlice";
 import { userImage } from "../HomeScreenComponants/PostCard";
 import { texture } from "../../screens/Main screens/Welcome";
+import CustomImageBackground from "../Gloabls/CustomImageBackground";
 
 type Props = {
   user: Iuser;
@@ -19,7 +20,7 @@ const ProfileHeader = ({ user }: Props) => {
         style={styles.cover}
       >
         <View style={[styles.avatarContainer, styles.shadow]}>
-          <ImageBackground
+          <CustomImageBackground
             source={user.avatar ? { uri: user.avatar } : userImage}
             style={styles.avatar}
           />
