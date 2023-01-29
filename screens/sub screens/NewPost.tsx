@@ -4,7 +4,7 @@ import { Button, TextInput } from "react-native-paper";
 import Filter from "../../componants/Gloabls/Filter";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { addPost } from "../../redux/slices/postsSlice";
+import { addPost, Ipost } from "../../redux/slices/postsSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import useNotification from "../../helpers/useNotification";
 import { RootStackParamList } from "../../navigation/Stack";
@@ -16,12 +16,15 @@ interface question {
 }
 
 const NewPost = ({ navigation, route }: Props) => {
-  const { openNotification } = useNotification();
   const chip = useSelector((state: RootState) => state.chips.newQuestionChip);
+  const user = useSelector((state: RootState) => state.token.user);
+  const { openNotification } = useNotification();
+  const groupId = route?.params?.groupId;
+  const groupName = route?.params?.groupName;
   const dispatch = useDispatch();
   const [question, setQuestion] = useState<question>({
     body: "",
-    topic: chip.label,
+    topic: "General",
   });
 
   const submit = () => {
@@ -29,14 +32,25 @@ const NewPost = ({ navigation, route }: Props) => {
       openNotification("Please fill the question body first");
       return;
     }
-    dispatch(
-      addPost({
-        ...question,
-        chip,
-        id: "gdfsg",
-        user: { id: "gdf", name: "user" },
-      })
-    );
+    const body: Ipost = {
+      ...question,
+      chip,
+      id: "gdfsg",
+      user: {
+        id: user ? user?.id : "",
+        name: user ? user?.name : "",
+        avatar: user?.avatar,
+      },
+    };
+    console.log({ chip });
+    if (groupId && groupName) {
+      body.group = {
+        id: groupId,
+        name: groupName,
+      };
+    }
+
+    dispatch(addPost(body));
     navigation.navigate("Home");
   };
 
@@ -58,7 +72,10 @@ const NewPost = ({ navigation, route }: Props) => {
         <Filter
           title="Topic"
           vertical
-          Case="newGroupChip"
+          Case="newQuestionChip"
+          setTopic={(e) => {
+            setQuestion((prev) => ({ ...prev, topic: e }));
+          }}
         />
       </View>
 

@@ -32,10 +32,13 @@ export const tokenSlice = createSlice({
     setUser: (state, action: PayloadAction<Iuser | null>) => {
       state.user = action.payload;
     },
+    logOut: (state) => {
+      return { user: null, value: null };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setToken, setUser } = tokenSlice.actions;
+export const { setToken, setUser, logOut } = tokenSlice.actions;
 
 export default tokenSlice.reducer;

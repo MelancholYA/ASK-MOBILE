@@ -67,7 +67,7 @@ const Post = ({ post, footerless }: Props) => {
               size={15}
               containerColor="white"
               iconColor="#444D6E"
-              icon="share"
+              icon="comment-plus"
             />
           </View>
           <CustomText

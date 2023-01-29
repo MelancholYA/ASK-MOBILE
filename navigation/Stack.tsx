@@ -13,10 +13,11 @@ export type RootStackParamList = {
   Replies: { postId: string; answerId: string; focus?: boolean };
   Group: { groupId: string };
   InviteAfriend: { groupId: string };
-  NewPost: undefined;
+  NewPost: { groupId?: string; groupName?: string } | undefined;
   NewGroup: undefined;
   Chat: { convoId: string; partnerName: string };
   EditProfile: undefined;
+  Settings: undefined;
 };
 
 export const Stack = createNativeStackNavigator<RootStackParamList>();

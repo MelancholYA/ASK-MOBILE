@@ -15,6 +15,7 @@ import NewGroup from "../screens/sub screens/NewGroup";
 import Chat from "../screens/sub screens/Chat";
 import { StackType } from "./Stack";
 import EditProfile from "../screens/sub screens/EditProfile";
+import Settings from "../screens/sub screens/Settings";
 
 interface Props {
   Stack: StackType;
@@ -117,6 +118,19 @@ const mainScreens = ({ Stack }: Props) => {
         }}
         name="NewGroup"
         component={NewGroup}
+      />
+      <Stack.Screen
+        options={{
+          animation: "simple_push",
+          header: (props) => (
+            <CustomScreenHeader
+              navigation={props}
+              title="Settings"
+            />
+          ),
+        }}
+        name="Settings"
+        component={Settings}
       />
       <Stack.Screen
         options={{

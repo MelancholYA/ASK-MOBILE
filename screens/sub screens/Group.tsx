@@ -10,6 +10,7 @@ import { NoData } from "../../componants/HomeScreenComponants/Posts";
 
 import { RootState } from "../../redux/store";
 import { RootStackParamList } from "../../navigation/Stack";
+import { FAB } from "react-native-paper";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Group">;
 
@@ -18,6 +19,9 @@ const Group = ({ route, navigation }: Props) => {
   const group = useSelector((state: RootState) => state.groups.groups).filter(
     (group) => group.id === id
   )[0];
+  const groupPosts = useSelector(
+    (state: RootState) => state.posts.posts
+  ).filter((post) => post.group?.id === id);
 
   return (
     <>
@@ -30,9 +34,24 @@ const Group = ({ route, navigation }: Props) => {
         <View style={styles.divider}></View>
         <CustomText color="white">{group.postsLength} Questions</CustomText>
       </View>
+      {group.joined && (
+        <FAB
+          theme={{ roundness: 100 }}
+          onPress={() =>
+            navigation.navigate("NewPost", {
+              groupId: id,
+              groupName: group.name,
+            })
+          }
+          style={styles.button}
+          color="#FCA311"
+          icon="fountain-pen-tip"
+        />
+      )}
+
       <FlatList
         style={{ padding: 10 }}
-        data={group.posts}
+        data={groupPosts}
         ListEmptyComponent={<NoData text="No posts in this group yet" />}
         renderItem={(item) => (
           <PostCard
@@ -66,5 +85,14 @@ const styles = StyleSheet.create({
     height: 3,
     width: 30,
     borderRadius: 15,
+  },
+  button: {
+    position: "absolute",
+    zIndex: 99,
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#14213D",
+    borderWidth: 2,
+    borderColor: "#FCA311",
   },
 });
