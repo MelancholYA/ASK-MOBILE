@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
 
     padding: 5,
-    color: "white",
+    // color: "white",
     flex: 0.2,
   },
 });
