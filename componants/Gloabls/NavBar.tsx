@@ -1,13 +1,7 @@
-import {
-  View,
-  StyleSheet,
-  StatusBar,
-  Touchable,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
 import React from "react";
 import {
+  Appbar,
   Button,
   FAB,
   IconButton,
@@ -47,7 +41,9 @@ const NavBar = ({ props }: Props) => {
     },
   ];
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
+    <Appbar.Header
+      style={[styles.container, { backgroundColor: theme.colors.primary }]}
+    >
       {buttons.map((button) => (
         <TouchableOpacity
           key={button.title}
@@ -79,18 +75,16 @@ const NavBar = ({ props }: Props) => {
           </CustomText>
         </TouchableOpacity>
       ))}
-    </View>
+    </Appbar.Header>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
     paddingHorizontal: 15,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: StatusBar.currentHeight ? StatusBar.currentHeight + 5 : 45,
   },
   button: {
     alignItems: "center",
