@@ -35,7 +35,7 @@ const ProfileHeader = ({ user }: Props) => {
           {user.name}
         </CustomText>
 
-        <CustomText color={user.bio ? "black" : "grey"}>
+        <CustomText color={user.bio ? "black" : "#0000009d"}>
           {user.bio || "No bio , edit profile to add a bio"}
         </CustomText>
       </View>

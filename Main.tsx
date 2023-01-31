@@ -27,7 +27,7 @@ const Main = (props: Props) => {
   const { dismissNote } = useNotification();
   const [appIsReady, setAppIsReady] = useState(false);
   const dispatch = useDispatch();
-  const token = useSelector((state: RootState) => state.token.value);
+  const { value, user } = useSelector((state: RootState) => state.token);
   const { body, show } = useSelector((state: RootState) => state.notification);
 
   useEffect(() => {
@@ -74,13 +74,13 @@ const Main = (props: Props) => {
     <>
       <Stack.Navigator
         screenOptions={{
-          animation: token ? "none" : "slide_from_bottom",
+          animation: user ? "none" : "slide_from_bottom",
           header: (props) => {
-            return token ? <NavBar props={props} /> : null;
+            return user ? <NavBar props={props} /> : null;
           },
         }}
       >
-        {!token ? AuthScreens({ Stack }) : MainScreens({ Stack })}
+        {!value || !user ? AuthScreens({ Stack }) : MainScreens({ Stack })}
       </Stack.Navigator>
 
       {/* Notification */}

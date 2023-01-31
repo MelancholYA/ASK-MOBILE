@@ -23,45 +23,46 @@ const Profile = ({ navigation }: Props) => {
   };
 
   return (
-    user && (
-      <View style={styles.container}>
+    <View style={styles.container}>
+      {
+        // @ts-ignore
         <ProfileHeader user={user} />
-        <View style={styles.buttonsContainer}>
-          <Button
-            textColor="#FCA311"
-            style={styles.button}
-            icon="plus"
-            mode="contained"
-            onPress={() => handleNavigation("NewPost")}
-          >
-            Post a question
-          </Button>
-          <Button
-            textColor="#FCA311"
-            icon="account-edit"
-            style={styles.button}
-            mode="contained"
-            onPress={() => handleNavigation("EditProfile")}
-          >
-            Edit Profile
-          </Button>
-          <IconButton
-            containerColor="#14213D"
-            iconColor="#FCA311"
-            onPress={() => handleNavigation("Settings")}
-            style={[styles.button, { margin: 0 }]}
-            mode="contained"
-            icon="cog"
-          />
-        </View>
-        <FlatList
-          ListEmptyComponent={<NoData text="You don't have any posts yet" />}
-          contentContainerStyle={{ padding: 10 }}
-          data={posts}
-          renderItem={({ item }) => <ProfilePost data={item} />}
+      }
+      <View style={styles.buttonsContainer}>
+        <Button
+          textColor="#FCA311"
+          style={styles.button}
+          icon="plus"
+          mode="contained"
+          onPress={() => handleNavigation("NewPost")}
+        >
+          Post a question
+        </Button>
+        <Button
+          textColor="#FCA311"
+          icon="account-edit"
+          style={styles.button}
+          mode="contained"
+          onPress={() => handleNavigation("EditProfile")}
+        >
+          Edit Profile
+        </Button>
+        <IconButton
+          containerColor="#14213D"
+          iconColor="#FCA311"
+          onPress={() => handleNavigation("Settings")}
+          style={[styles.button, { margin: 0 }]}
+          mode="contained"
+          icon="cog"
         />
       </View>
-    )
+      <FlatList
+        ListEmptyComponent={<NoData text="You don't have any posts yet" />}
+        contentContainerStyle={{ padding: 10 }}
+        data={posts}
+        renderItem={({ item }) => <ProfilePost data={item} />}
+      />
+    </View>
   );
 };
 
