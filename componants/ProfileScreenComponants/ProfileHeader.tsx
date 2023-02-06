@@ -10,8 +10,6 @@ type Props = {
   user: Iuser;
 };
 
-//todo edit profile
-
 const ProfileHeader = ({ user }: Props) => {
   return (
     <View style={[styles.shadow, { paddingBottom: 10 }]}>

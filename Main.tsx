@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, StatusBar } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
@@ -72,6 +72,7 @@ const Main = (props: Props) => {
     />
   ) : (
     <>
+      <StatusBar backgroundColor="#14213D" />
       <Stack.Navigator
         screenOptions={{
           animation: user ? "none" : "slide_from_bottom",

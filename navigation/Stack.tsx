@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Chat: { convoId: string; partnerName: string };
   EditProfile: undefined;
   Settings: undefined;
+  Friend: { friendId: string };
 };
 
 export const Stack = createNativeStackNavigator<RootStackParamList>();

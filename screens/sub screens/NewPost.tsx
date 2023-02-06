@@ -1,5 +1,5 @@
-import { StyleSheet, FlatList, View } from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, StatusBar, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import Filter from "../../componants/Gloabls/Filter";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,11 @@ import { addPost, Ipost } from "../../redux/slices/postsSlice";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import useNotification from "../../helpers/useNotification";
 import { RootStackParamList } from "../../navigation/Stack";
+import axios from "axios";
+import { BASE_URL } from "@env";
+import { Ichip } from "../../redux/slices/chipsSlice";
+import useFetch from "../../helpers/useFetch";
+import { set } from "react-native-reanimated";
 
 type Props = NativeStackScreenProps<RootStackParamList, "NewPost">;
 interface question {
@@ -17,45 +22,44 @@ interface question {
 
 const NewPost = ({ navigation, route }: Props) => {
   const chip = useSelector((state: RootState) => state.chips.newQuestionChip);
-  const user = useSelector((state: RootState) => state.token.user);
   const { openNotification } = useNotification();
+  const { data, loading, postData, clearData } = useFetch();
   const groupId = route?.params?.groupId;
   const groupName = route?.params?.groupName;
+
   const dispatch = useDispatch();
   const [question, setQuestion] = useState<question>({
     body: "",
     topic: "General",
   });
 
-  const submit = () => {
+  const submit = async () => {
     if (!question.body) {
       openNotification("Please fill the question body first");
       return;
     }
-    const body: Ipost = {
-      ...question,
+    const body: { body: string; chip: Ichip; group?: string } = {
+      body: question.body,
       chip,
-      id: "gdfsg",
-      user: {
-        id: user ? user?.id : "",
-        name: user ? user?.name : "",
-        avatar: user?.avatar,
-      },
     };
-    console.log({ chip });
     if (groupId && groupName) {
-      body.group = {
-        id: groupId,
-        name: groupName,
-      };
+      body.group = groupId;
     }
-
-    dispatch(addPost(body));
-    navigation.navigate("Home");
+    postData("posts/new", body);
   };
+
+  useEffect(() => {
+    if (data) {
+      dispatch(addPost(data.data.post));
+      clearData();
+      navigation.navigate("Home");
+    }
+    return () => setQuestion({ body: "", topic: "General" });
+  }, [loading, data]);
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="white" />
       <TextInput
         value={question.body}
         onChangeText={(e) => setQuestion((prev) => ({ ...prev, body: e }))}
@@ -80,6 +84,8 @@ const NewPost = ({ navigation, route }: Props) => {
       </View>
 
       <Button
+        disabled={loading}
+        loading={loading}
         mode="contained"
         icon="share"
         style={{
@@ -106,7 +112,6 @@ const styles = StyleSheet.create({
   textInput: {
     height: 120,
     marginBottom: 10,
-
     padding: 5,
     color: "black",
     flex: 0.2,

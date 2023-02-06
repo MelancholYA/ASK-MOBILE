@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, StatusBar } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -16,10 +16,11 @@ type Props = NativeStackScreenProps<RootStackParamList, "Question">;
 const Question = ({ navigation, route }: Props) => {
   const { postId } = route.params;
   const post = useSelector((state: RootState) => state.posts.posts).filter(
-    (post) => post.id === postId
+    (post) => post._id === postId
   )[0];
   return (
     <>
+      <StatusBar backgroundColor="#D7D9DD" />
       <View style={styles.container}>
         <View style={styles.post}>
           <View style={styles.header}>
@@ -29,7 +30,10 @@ const Question = ({ navigation, route }: Props) => {
               source={{ uri: post.user.avatar }}
             />
             <View>
-              <CustomText style={styles.name}> {post.user.name}</CustomText>
+              <CustomText style={styles.name}>
+                {" "}
+                {`${post.user.firstName} ${post.user.lastName}`}
+              </CustomText>
               <CustomText style={styles.groupName}>
                 {post.group?.name}
               </CustomText>
@@ -60,14 +64,14 @@ const Question = ({ navigation, route }: Props) => {
           style={styles.answers}
           renderItem={(item) => (
             <AnswerCard
-              postId={post.id}
+              postId={post._id}
               data={item.item}
-              key={item.item.id}
+              key={item.item._id}
             />
           )}
           data={post.answers}
         />
-        <AnswerInput postId={post.id} />
+        <AnswerInput postId={post._id} />
       </View>
     </>
   );

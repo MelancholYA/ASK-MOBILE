@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, StatusBar, View, FlatList } from "react-native";
 import React, { useState } from "react";
 import { RootStackParamList } from "../../navigation/Stack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -32,6 +32,7 @@ const Chat = ({ route }: Props) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="white" />
       <FlatList
         inverted
         data={messagesList}

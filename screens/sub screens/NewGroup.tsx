@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, ImageBackground, View, Image } from "react-native";
+import {
+  StyleSheet,
+  ImageBackground,
+  View,
+  Image,
+  StatusBar,
+} from "react-native";
 import { Button, TextInput } from "react-native-paper";
 
 import Filter from "../../componants/Gloabls/Filter";
@@ -56,6 +62,7 @@ const NewGroup = ({ navigation }: Props) => {
   };
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="white" />
       <ImageBackground
         style={{
           aspectRatio: 16 / 6,

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { Ichip, setFilters } from "../../redux/slices/chipsSlice";
 import CustomText from "./CustomText";
+import CustomButton from "./CustomButton";
 
 type Props = {
   Case:
@@ -17,6 +18,8 @@ type Props = {
   title?: string;
   setTopic?: (topic: string) => void;
 };
+
+//todo : fix custom button
 
 const Filter = ({ Case, shadow, vertical, title, setTopic }: Props) => {
   const chipsState = useSelector((state: RootState) => state.chips);

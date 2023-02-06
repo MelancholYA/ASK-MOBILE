@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View, StatusBar } from "react-native";
 import { Avatar, TextInput } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import CustomText from "../../componants/Gloabls/CustomText";
@@ -27,6 +27,7 @@ const Replies = ({ navigation, route }: Props) => {
 
   return (
     <>
+      <StatusBar backgroundColor="#D7D9DD" />
       <View style={styles.answerBody}>
         <Avatar.Image
           source={{ uri: answer?.user.avatar }}

@@ -24,5 +24,6 @@
   },
   "submit": {
     "production": {}
-  }
+  },
+  "channel": "default"
 }

@@ -2,7 +2,7 @@ import {
   ImageBackground,
   ScrollView,
   StyleSheet,
-  Text,
+  StatusBar,
   View,
 } from "react-native";
 import React, { useState } from "react";
@@ -57,6 +57,7 @@ const EditProfile = (props: Props) => {
   return (
     userData && (
       <ScrollView contentContainerStyle={styles.container}>
+        <StatusBar backgroundColor="#fff" />
         <Portal>
           <Modal
             visible={visible}

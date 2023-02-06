@@ -147,7 +147,6 @@ export default GroupHeader;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: StatusBar.currentHeight,
     backgroundColor: "#000000b5",
   },
   header: {

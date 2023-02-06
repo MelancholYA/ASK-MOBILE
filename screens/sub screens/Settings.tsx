@@ -1,10 +1,10 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
+import { useDispatch } from "react-redux";
+import { StyleSheet, View, StatusBar } from "react-native";
 import { Button } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import useNotification from "../../helpers/useNotification";
-import { useDispatch } from "react-redux";
+
 import { logOut } from "../../redux/slices/tokenSlice";
+import useNotification from "../../helpers/useNotification";
 
 type Props = {};
 
@@ -23,6 +23,7 @@ const Settings = (props: Props) => {
   };
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="#f8faff" />
       <Button
         mode="contained"
         icon="logout-variant"

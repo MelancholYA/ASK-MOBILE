@@ -11,7 +11,6 @@ export default function App() {
   const theme = {
     ...DefaultTheme,
     roundness: 1,
-
     colors: {
       ...DefaultTheme.colors,
       primary: "#14213D",

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import useAuth from "../../helpers/useAuth";
@@ -15,7 +15,7 @@ const Login = (props: Props) => {
   });
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <AuthHeader />
       <View style={styles.subContainer}>
         <CustomText style={styles.subtitle}>Welcome back friend</CustomText>
@@ -59,7 +59,7 @@ const Login = (props: Props) => {
           Login
         </Button>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

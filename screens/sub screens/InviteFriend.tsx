@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View, StatusBar } from "react-native";
 import { Button } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -29,6 +29,7 @@ const InviteFriend = ({ navigation, route }: Props) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="white" />
       <FlatList
         data={user?.friends}
         ListEmptyComponent={<NoData text="You don't have any friends yet" />}

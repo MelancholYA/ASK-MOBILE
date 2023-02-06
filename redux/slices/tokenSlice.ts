@@ -2,12 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface Iuser {
-  id: string;
-  name: string;
+  _id: string;
+  firstName: string;
+  LastName: string;
   email: string;
   avatar?: string;
   cover?: string;
-  bio: string;
+  bio?: string;
   friends?: Iuser[];
   password?: string;
 }

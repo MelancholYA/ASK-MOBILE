@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Avatar, Button, IconButton } from "react-native-paper";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -9,6 +9,8 @@ import { useNavigation } from "@react-navigation/native";
 import { Ipost } from "../../redux/slices/postsSlice";
 import { chipStyle } from "../Gloabls/Filter";
 import { RootStackParamList } from "../../navigation/Stack";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 type Props = {
   post: Ipost;
@@ -20,17 +22,47 @@ export const userImage = require("../../assets/user.png");
 
 const Post = ({ post, footerless }: Props) => {
   const navigation = useNavigation<useNavigationProp>();
+  const user = useSelector((state: RootState) => state.token.user);
+
+  const goToProfile = () => {
+    const id = user?._id;
+    const authorId = post.user._id;
+    console.log({ id, authorId, user });
+    if (id === authorId) {
+      navigation.navigate("Profile");
+    } else {
+      navigation.navigate("Friend", { friendId: authorId });
+    }
+  };
+  const goToGroup = () => {
+    if (post.group) {
+      navigation.navigate("Group", { groupId: post.group?.id });
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Avatar.Image
-          style={styles.avatar}
-          size={45}
-          source={post.user.avatar ? { uri: post.user.avatar } : userImage}
-        />
+        <Pressable onPress={goToProfile}>
+          <Avatar.Image
+            style={styles.avatar}
+            size={45}
+            source={post.user.avatar ? { uri: post.user.avatar } : userImage}
+          />
+        </Pressable>
+
         <View>
-          <CustomText style={styles.name}> {post.user.name}</CustomText>
-          <CustomText style={styles.groupName}> {post.group?.name} </CustomText>
+          <CustomText
+            onPress={goToProfile}
+            style={styles.name}
+          >
+            {`${post.user.firstName} ${post.user.lastName}`}
+          </CustomText>
+          <CustomText
+            onPress={goToGroup}
+            style={styles.groupName}
+          >
+            {post.group?.name}
+          </CustomText>
         </View>
         <Button
           textColor="white"
@@ -60,7 +92,7 @@ const Post = ({ post, footerless }: Props) => {
             />
             <IconButton
               onPress={() =>
-                navigation.navigate("Question", { postId: post.id })
+                navigation.navigate("Question", { postId: post._id })
               }
               style={{ width: 50 }}
               mode="contained"
@@ -71,7 +103,9 @@ const Post = ({ post, footerless }: Props) => {
             />
           </View>
           <CustomText
-            onPress={() => navigation.navigate("Question", { postId: post.id })}
+            onPress={() =>
+              navigation.navigate("Question", { postId: post._id })
+            }
             variant="labelSmall"
             style={{ color: "#ffffff83" }}
           >

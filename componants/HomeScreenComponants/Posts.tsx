@@ -1,10 +1,11 @@
-import { StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View, RefreshControl } from "react-native";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { setPostsToDisplay } from "../../redux/slices/postsSlice";
+import { setPosts, setPostsToDisplay } from "../../redux/slices/postsSlice";
 import CustomText from "../Gloabls/CustomText";
 import PostCard from "./PostCard";
+import useFetch from "../../helpers/useFetch";
 
 type Props = {};
 
@@ -18,21 +19,31 @@ export const NoData = ({ text }: { text: string }) => {
         alignItems: "center",
       }}
     >
-      <CustomText variant="titleMedium">{text}</CustomText>
+      <CustomText
+        style={{ textAlign: "center" }}
+        variant="titleMedium"
+      >
+        {text}
+      </CustomText>
     </View>
   );
 };
 
 const Posts = (props: Props) => {
   const dispatch = useDispatch();
-  const { postsToDisplay, posts } = useSelector(
-    (state: RootState) => state.posts
-  );
-  const { homePageChips } = useSelector((state: RootState) => state.chips);
+  const { postsToDisplay } = useSelector((state: RootState) => state.posts);
+
+  const { clearData, data, getData, loading } = useFetch();
 
   useEffect(() => {
-    dispatch(setPostsToDisplay(homePageChips));
-  }, [homePageChips, posts]);
+    getData("posts");
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setPosts(data.data.posts));
+    }
+  }, [data]);
 
   return (
     <FlatList
@@ -42,10 +53,16 @@ const Posts = (props: Props) => {
       contentContainerStyle={{ paddingBottom: 10 }}
       scrollEnabled
       data={postsToDisplay}
+      refreshControl={
+        <RefreshControl
+          refreshing={loading}
+          onRefresh={() => getData("posts")}
+        />
+      }
       renderItem={(item) => (
         <PostCard
           post={item.item}
-          key={item.item.id}
+          key={item.item._id}
         />
       )}
     />
