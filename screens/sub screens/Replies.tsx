@@ -17,8 +17,8 @@ const Replies = ({ navigation, route }: Props) => {
   const { postId, answerId, focus } = route.params;
 
   const answer = useSelector((state: RootState) => state.posts.posts)
-    .filter((post) => post.id === postId)[0]
-    .answers?.filter((answer) => answer.id === answerId)[0];
+    .filter((post) => post._id === postId)[0]
+    .answers?.filter((answer) => answer._id === answerId)[0];
 
   const handleReply = () => {
     dispatch(replyToAnswer({ answerId, postId, replyBody }));
@@ -47,7 +47,7 @@ const Replies = ({ navigation, route }: Props) => {
         renderItem={(item) => (
           <Reply
             data={item.item}
-            key={item.item.id}
+            key={item.item._id}
           />
         )}
       />

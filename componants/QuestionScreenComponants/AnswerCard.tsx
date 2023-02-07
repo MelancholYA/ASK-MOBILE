@@ -5,7 +5,7 @@ import CustomText from "../Gloabls/CustomText";
 import { Ianswer } from "../../redux/slices/postsSlice";
 import { useNavigation } from "@react-navigation/native";
 
-import { useNavigationProp } from "../HomeScreenComponants/PostCard";
+import { useNavigationProp, userImage } from "../HomeScreenComponants/PostCard";
 
 type Props = {
   data: Ianswer;
@@ -17,16 +17,18 @@ const Answer = ({ data, postId }: Props) => {
   return (
     <View
       style={styles.answer}
-      key={data.id}
+      key={data._id}
     >
       <View style={styles.header}>
         <Avatar.Image
           style={styles.avatar}
           size={45}
-          source={{ uri: data.user.avatar }}
+          source={data.user.avatar ? { uri: data.user.avatar } : userImage}
         />
         <View>
-          <CustomText style={styles.name}> {data.user.name}</CustomText>
+          <CustomText style={styles.name}>
+            {`${data.user.firstName} ${data.user.lastName}`}
+          </CustomText>
           <CustomText style={styles.answerBody}>{data.body}</CustomText>
         </View>
       </View>
@@ -50,7 +52,7 @@ const Answer = ({ data, postId }: Props) => {
           icon={"share"}
           onPress={() =>
             navigation.navigate("Replies", {
-              answerId: data.id,
+              answerId: data._id,
               postId,
               focus: true,
             })
@@ -59,7 +61,7 @@ const Answer = ({ data, postId }: Props) => {
         <Button
           textColor="#444D6E"
           onPress={() =>
-            navigation.navigate("Replies", { answerId: data.id, postId })
+            navigation.navigate("Replies", { answerId: data._id, postId })
           }
           style={{ marginLeft: -15 }}
         >
@@ -84,7 +86,6 @@ const styles = StyleSheet.create({
     width: 225,
     padding: 5,
   },
-  replies: {},
   reply: {
     borderRadius: 5,
     backgroundColor: "#B8BDC6",
@@ -103,5 +104,6 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: "Montserrat-Bold",
     color: "#444D6E",
+    textTransform: "capitalize",
   },
 });

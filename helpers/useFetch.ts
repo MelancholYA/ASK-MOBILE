@@ -25,7 +25,10 @@ const useFetch = () => {
       .then((res) => {
         setData(res);
       })
-      .catch((err) => openNotification(errMessage(err)))
+      .catch((err) => {
+        console.log({ err });
+        openNotification(errMessage(err));
+      })
       .finally(() => setLoading(false));
   };
   const getData = (url: string) => {
@@ -37,9 +40,13 @@ const useFetch = () => {
         },
       })
       .then((res) => {
+        console.log({ res });
         setData(res);
       })
-      .catch((err) => openNotification(errMessage(err)))
+      .catch((err) => {
+        console.log({ err });
+        openNotification(errMessage(err));
+      })
       .finally(() => setLoading(false));
   };
 

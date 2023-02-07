@@ -133,8 +133,18 @@ const EditProfile = (props: Props) => {
 
           <TextInput
             style={styles.input}
-            value={userData.name}
-            onChangeText={(e) => setUserData({ ...userData, name: e })}
+            value={userData.firstName}
+            onChangeText={(e) => setUserData({ ...userData, firstName: e })}
+            label="User Name"
+            mode="outlined"
+            theme={{ roundness: 7 }}
+            activeOutlineColor="#9e9e9e"
+            outlineColor="#a3a2a2"
+          />
+          <TextInput
+            style={styles.input}
+            value={userData.LastName}
+            onChangeText={(e) => setUserData({ ...userData, LastName: e })}
             label="User Name"
             mode="outlined"
             theme={{ roundness: 7 }}

@@ -12,6 +12,7 @@
     },
     "preview": {
       "distribution": "internal",
+      "channel": "default",
       "ios": {
         "resourceClass": "m1-medium"
       }
@@ -24,6 +25,5 @@
   },
   "submit": {
     "production": {}
-  },
-  "channel": "default"
+  }
 }

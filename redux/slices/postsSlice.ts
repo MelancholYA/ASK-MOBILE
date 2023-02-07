@@ -48,8 +48,15 @@ export interface Ipost {
 }
 
 interface IanswerBody {
+  _id: string;
   postId: string;
-  answerBody: string;
+  body: string;
+  user: {
+    avatar: string;
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
 }
 interface IreplyBody {
   postId: string;
@@ -69,7 +76,7 @@ export const postsSlice = createSlice({
     setPosts: (state, action: PayloadAction<Ipost[]>) => {
       return {
         ...state,
-        posts: action.payload,
+        posts: [...state.posts, ...action.payload],
       };
     },
     setPostsToDisplay: (state, action: PayloadAction<Ichip[]>) => {
@@ -91,22 +98,12 @@ export const postsSlice = createSlice({
       state.postsToDisplay = newArr;
     },
     answerQuestion: (state, action: PayloadAction<IanswerBody>) => {
-      const answer = {
-        body: action.payload.answerBody,
-        id: "s32gq",
-        user: {
-          avatar:
-            "https://media.licdn.com/dms/image/D4D35AQFIOp-HBmIG_w/profile-framedphoto-shrink_100_100/0/1661764145277?e=1673452800&v=beta&t=Vo-i54ez2D96hTV7QzPa1vxv0I984veG7e7rKBUTmuk",
-          id: "1452",
-          name: "user",
-        },
-      };
       state.posts.map((post) => {
         if (post._id === action.payload.postId) {
           if (!post.answers) {
-            post.answers = [answer];
+            post.answers = [action.payload];
           } else {
-            post.answers.push(answer);
+            post.answers.push(action.payload);
           }
         }
         return post;
@@ -125,9 +122,9 @@ export const postsSlice = createSlice({
         },
       };
       state.posts.map((post) => {
-        if (post.id === postId) {
+        if (post._id === postId) {
           post.answers?.map((answer) => {
-            if (answer.id === answerId) {
+            if (answer._id === answerId) {
               if (!answer.replies) {
                 answer.replies = [reply];
               } else {
@@ -141,12 +138,23 @@ export const postsSlice = createSlice({
       });
     },
     deletePost: (state, action: PayloadAction<string>) => {
-      let newState = state.posts.filter((post) => post.id !== action.payload);
+      let newState = state.posts.filter((post) => post._id !== action.payload);
       state.posts = newState;
     },
     addPost: (state, action: PayloadAction<Ipost>) => {
       state.posts.unshift(action.payload);
       return state;
+    },
+    addAnswers: (
+      state,
+      action: PayloadAction<{ postId: string; answers: Ianswer[] }>
+    ) => {
+      state.posts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post.answers = action.payload.answers;
+        }
+        return post;
+      });
     },
   },
 });
@@ -158,6 +166,7 @@ export const {
   replyToAnswer,
   addPost,
   deletePost,
+  addAnswers,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

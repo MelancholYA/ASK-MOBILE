@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Filter from "../../componants/Gloabls/Filter";
 import Posts from "../../componants/HomeScreenComponants/Posts";
 import { ActivityIndicator, FAB } from "react-native-paper";
@@ -14,6 +14,7 @@ interface Props extends NativeStackScreenProps<RootStackParamList, "Home"> {}
 
 const Home = (props: Props) => {
   const dispatch = useDispatch();
+
   const { homePageChips } = useSelector((state: RootState) => state.chips);
   const { posts } = useSelector((state: RootState) => state.posts);
 

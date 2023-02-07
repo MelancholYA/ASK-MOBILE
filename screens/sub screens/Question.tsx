@@ -1,23 +1,45 @@
-import React from "react";
-import { StyleSheet, View, FlatList, StatusBar } from "react-native";
-import { Avatar, Button } from "react-native-paper";
+import React, { useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  StatusBar,
+  RefreshControl,
+} from "react-native";
+import { ActivityIndicator, Avatar, Button } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { chipStyle } from "../../componants/Gloabls/Filter";
 import CustomText from "../../componants/Gloabls/CustomText";
 import AnswerInput from "../../componants/QuestionScreenComponants/AnswerInput";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import AnswerCard from "../../componants/QuestionScreenComponants/AnswerCard";
 import { RootStackParamList } from "../../navigation/Stack";
+import useFetch from "../../helpers/useFetch";
+import { userImage } from "../../componants/HomeScreenComponants/PostCard";
+import { addAnswers } from "../../redux/slices/postsSlice";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Question">;
 
 const Question = ({ navigation, route }: Props) => {
+  const { clearData, data, getData, loading } = useFetch();
+  const dispatch = useDispatch();
   const { postId } = route.params;
   const post = useSelector((state: RootState) => state.posts.posts).filter(
     (post) => post._id === postId
   )[0];
+
+  useEffect(() => {
+    getData("posts/" + postId + "/answers");
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      console.log({ answers: data });
+      dispatch(addAnswers({ answers: data.data.answers, postId }));
+    }
+  }, [data]);
   return (
     <>
       <StatusBar backgroundColor="#D7D9DD" />
@@ -27,11 +49,10 @@ const Question = ({ navigation, route }: Props) => {
             <Avatar.Image
               style={styles.avatar}
               size={45}
-              source={{ uri: post.user.avatar }}
+              source={post.user?.avatar ? { uri: post.user.avatar } : userImage}
             />
             <View>
               <CustomText style={styles.name}>
-                {" "}
                 {`${post.user.firstName} ${post.user.lastName}`}
               </CustomText>
               <CustomText style={styles.groupName}>
@@ -62,6 +83,12 @@ const Question = ({ navigation, route }: Props) => {
         <FlatList
           listKey="1"
           style={styles.answers}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={() => getData("posts/" + postId + "/answers")}
+            />
+          }
           renderItem={(item) => (
             <AnswerCard
               postId={post._id}
@@ -99,6 +126,7 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: "Montserrat-Bold",
     color: "#444D6E",
+    textTransform: "capitalize",
   },
   groupName: {
     fontFamily: "Montserrat-Medium",

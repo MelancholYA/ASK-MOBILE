@@ -6,11 +6,12 @@ import CustomText from "../Gloabls/CustomText";
 
 type Props = {
   data: {
-    id: string;
+    _id: string;
     user: {
       id: string;
-      avatar: string;
-      name: string;
+      avatar?: string;
+      firstName: string;
+      lastName: string;
     };
     body: string;
   };
@@ -19,7 +20,7 @@ type Props = {
 const Reply = ({ data }: Props) => {
   return (
     <View
-      key={data.id}
+      key={data._id}
       style={styles.reply}
     >
       <View style={styles.header}>
@@ -29,7 +30,9 @@ const Reply = ({ data }: Props) => {
           source={{ uri: data.user.avatar }}
         />
         <View>
-          <CustomText style={styles.name}>{data.user.name}</CustomText>
+          <CustomText
+            style={styles.name}
+          >{`${data.user.firstName} ${data.user.lastName}`}</CustomText>
           <CustomText style={styles.answerBody}>{data.body}</CustomText>
         </View>
       </View>

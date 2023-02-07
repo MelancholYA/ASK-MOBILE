@@ -1,27 +1,56 @@
 import { StyleSheet, TextInput, View, Dimensions } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IconButton } from "react-native-paper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { answerQuestion } from "../../redux/slices/postsSlice";
 import useNotification from "../../helpers/useNotification";
+import useFetch from "../../helpers/useFetch";
+import { RootState } from "../../redux/store";
 
 interface props {
   postId: string;
 }
 
 const AnswerInput = ({ postId }: props) => {
+  const user = useSelector((state: RootState) => state.token.user);
   const [answerBody, setAnswerBody] = useState("");
   const { openNotification } = useNotification();
   const dispatch = useDispatch();
+  const { clearData, data, loading, postData } = useFetch();
 
   const answer = () => {
+    console.log(user);
+    if (!user) {
+      return;
+    }
     if (answerBody.length === 0) {
       openNotification("Please write your answer first");
       return;
     }
-    dispatch(answerQuestion({ answerBody, postId }));
-    setAnswerBody("");
+    postData("posts/answer", {
+      userId: user._id,
+      body: answerBody,
+      postId,
+    });
+    // dispatch(answerQuestion({ answerBody, postId }));
+    // setAnswerBody("");
   };
+
+  useEffect(() => {
+    if (data) {
+      console.log({ gg: data });
+      dispatch(
+        answerQuestion({
+          _id: data.data.answer._id,
+          body: data.data.answer.body,
+          postId: data.data.answer.post,
+          user: data.data.answer.user,
+        })
+      );
+      setAnswerBody("");
+      console.log({ data });
+    }
+  }, [data]);
 
   return (
     <View style={styles.inputContainer}>
