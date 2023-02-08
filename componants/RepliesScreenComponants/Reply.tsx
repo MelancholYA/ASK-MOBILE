@@ -3,12 +3,13 @@ import React from "react";
 import { Ianswer } from "../../redux/slices/postsSlice";
 import { Avatar } from "react-native-paper";
 import CustomText from "../Gloabls/CustomText";
+import { userImage } from "../HomeScreenComponants/PostCard";
 
 type Props = {
   data: {
     _id: string;
     user: {
-      id: string;
+      _id: string;
       avatar?: string;
       firstName: string;
       lastName: string;
@@ -27,7 +28,7 @@ const Reply = ({ data }: Props) => {
         <Avatar.Image
           style={styles.avatar}
           size={35}
-          source={{ uri: data.user.avatar }}
+          source={data.user.avatar ? { uri: data.user.avatar } : userImage}
         />
         <View>
           <CustomText

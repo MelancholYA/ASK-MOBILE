@@ -12,11 +12,14 @@ type Props = {
   post: Ipost;
 };
 
+//todo resplies
+
 const Answers = ({ post }: Props) => {
   const { clearData, data, getData, loading } = useFetch();
   const [page, setPage] = useState(1);
   const [hasNextPage, sethasNextPage] = useState(false);
   const dispatch = useDispatch();
+  const firstRender = useRef(true);
 
   const refresh = () => {
     dispatch(clearAnswers({ postId: post._id }));
@@ -31,17 +34,16 @@ const Answers = ({ post }: Props) => {
   }, [page]);
 
   useEffect(() => {
-    if (data) {
-      sethasNextPage(data.data.hasNextPage);
-      dispatch(addAnswers({ answers: data.data.answers, postId: post._id }));
+    if (firstRender.current) {
+      if (data) {
+        sethasNextPage(data.data.hasNextPage);
+        dispatch(addAnswers({ answers: data.data.answers, postId: post._id }));
+      }
+    } else {
+      firstRender.current = false;
     }
   }, [data, dispatch]);
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearAnswers({ postId: post._id }));
-    };
-  }, []);
   return (
     <FlatList
       refreshControl={

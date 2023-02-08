@@ -44,6 +44,7 @@ const Answer = ({ data, postId }: Props) => {
           size={20}
           iconColor="#444D6E"
           icon="thumb-up"
+          onPress={() => alert("liked")}
         />
         <IconButton
           size={20}
@@ -69,7 +70,9 @@ const Answer = ({ data, postId }: Props) => {
             {data.repliesLength === 1
               ? "view 1 reply"
               : data.repliesLength > 1
-              ? "View" + data.repliesLength + "replies"
+              ? data.repliesLength > 99
+                ? '"view +99 reply"'
+                : "View " + data.repliesLength + " replies"
               : "No replies"}
           </CustomText>
         </Button>

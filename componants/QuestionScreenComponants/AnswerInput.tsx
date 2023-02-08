@@ -43,6 +43,7 @@ const AnswerInput = ({ postId }: props) => {
           body: data.data.answer.body,
           postId: data.data.answer.post,
           user: data.data.answer.user,
+          repliesLength:data.data.answer.repliesLength
         })
       );
       setAnswerBody("");

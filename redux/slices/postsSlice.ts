@@ -1,6 +1,19 @@
+import { Iuser } from "./tokenSlice";
 import { Ichip } from "./chipsSlice";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
+export interface Ireply {
+  _id: string;
+  body: string;
+  user: {
+    _id: string;
+    avatar?: string;
+    cover?: string;
+    firstName: string;
+    lastName: string;
+  };
+}
 
 export interface Ianswer {
   _id: string;
@@ -12,19 +25,7 @@ export interface Ianswer {
     lastName: string;
   };
   repliesLength: number;
-  replies?: [
-    {
-      _id: string;
-      user: {
-        id: string;
-        avatar?: string;
-        cover?: string;
-        firstName: string;
-        lastName: string;
-      };
-      body: string;
-    }
-  ];
+  replies?: Ireply[];
   body: string;
 }
 
@@ -61,9 +62,17 @@ interface IanswerBody {
   };
 }
 interface IreplyBody {
+  _id: string;
   postId: string;
   answerId: string;
-  replyBody: string;
+  body: string;
+  user: {
+    _id: string;
+    avatar?: string;
+    cover?: string;
+    firstName: string;
+    lastName: string;
+  };
 }
 
 const initialState: { posts: Ipost[]; postsToDisplay: Ipost[] } = {
@@ -112,26 +121,39 @@ export const postsSlice = createSlice({
       });
     },
     replyToAnswer: (state, action: PayloadAction<IreplyBody>) => {
-      const { answerId, postId, replyBody } = action.payload;
-      const reply = {
-        body: replyBody,
-        id: "s32gq",
-        user: {
-          avatar:
-            "https://media.licdn.com/dms/image/D4D35AQFIOp-HBmIG_w/profile-framedphoto-shrink_100_100/0/1661764145277?e=1673452800&v=beta&t=Vo-i54ez2D96hTV7QzPa1vxv0I984veG7e7rKBUTmuk",
-          id: "1452",
-          name: "user",
-        },
-      };
+      const { answerId, postId } = action.payload;
+
       state.posts.map((post) => {
         if (post._id === postId) {
           post.answers?.map((answer) => {
             if (answer._id === answerId) {
+              answer.repliesLength++;
               if (!answer.replies) {
-                answer.replies = [reply];
+                answer.replies = [action.payload];
               } else {
-                answer.replies.push(reply);
+                answer.replies.push(action.payload);
               }
+            }
+            return answer;
+          });
+        }
+        return post;
+      });
+    },
+    setReplies: (
+      state,
+      action: PayloadAction<{
+        postId: string;
+        answerId: string;
+        replies: Ireply[];
+      }>
+    ) => {
+      const { answerId, postId, replies } = action.payload;
+      state.posts.map((post) => {
+        if (post._id === postId) {
+          post.answers?.map((answer) => {
+            if (answer._id === answerId) {
+              answer.replies = replies;
             }
             return answer;
           });
@@ -151,6 +173,18 @@ export const postsSlice = createSlice({
       state,
       action: PayloadAction<{ postId: string; answers: Ianswer[] }>
     ) => {
+      const post = state.posts.filter(
+        (post) => post._id === action.payload.postId
+      )[0];
+      const isExisting = post.answers
+        ? post.answers.some((item1) =>
+            action.payload.answers.some((item2) => item1._id === item2._id)
+          )
+        : false;
+
+      if (isExisting) {
+        return;
+      }
       return {
         ...state,
         posts: state.posts.map((post, i) => {
@@ -191,6 +225,7 @@ export const {
   addAnswers,
   clearAnswers,
   clearPosts,
+  setReplies,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

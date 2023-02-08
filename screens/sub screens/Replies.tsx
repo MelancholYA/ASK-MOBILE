@@ -1,38 +1,48 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { StyleSheet, FlatList, View, StatusBar } from "react-native";
-import { Avatar, TextInput } from "react-native-paper";
+import { useEffect } from "react";
+import { ActivityIndicator, Avatar } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
+import { StyleSheet, FlatList, View, StatusBar } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import CustomText from "../../componants/Gloabls/CustomText";
 import Reply from "../../componants/RepliesScreenComponants/Reply";
-import useFetch from "../../helpers/useFetch";
+import ReplyInput from "../../componants/RepliesScreenComponants/ReplyInput";
+
 import { RootStackParamList } from "../../navigation/Stack";
-import { replyToAnswer } from "../../redux/slices/postsSlice";
 import { RootState } from "../../redux/store";
+import { userImage } from "../../componants/HomeScreenComponants/PostCard";
+import useFetch from "../../helpers/useFetch";
+import { Ireply, setReplies } from "../../redux/slices/postsSlice";
+import { NoData } from "../../componants/HomeScreenComponants/Posts";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Replies">;
 
 const Replies = ({ navigation, route }: Props) => {
-  const { clearData, data, loading, postData } = useFetch();
-  const [replyBody, setReplyBody] = useState("");
   const dispatch = useDispatch();
   const { postId, answerId, focus } = route.params;
+  const { clearData, data, getData, loading } = useFetch();
 
   const answer = useSelector((state: RootState) => state.posts.posts)
     .filter((post) => post._id === postId)[0]
     .answers?.filter((answer) => answer._id === answerId)[0];
 
-  const handleReply = () => {
-    dispatch(replyToAnswer({ answerId, postId, replyBody }));
-    setReplyBody("");
-  };
+  useEffect(() => {
+    getData(`posts/${postId}/${answerId}/replies`);
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      const replies: Ireply[] = data.data.replies;
+      dispatch(setReplies({ answerId, postId, replies }));
+    }
+  }, [data]);
 
   return (
     <>
       <StatusBar backgroundColor="#D7D9DD" />
       <View style={styles.answerBody}>
         <Avatar.Image
-          source={{ uri: answer?.user.avatar }}
+          source={answer?.user.avatar ? { uri: answer.user.avatar } : userImage}
           style={{ marginBottom: 15 }}
         />
         <CustomText
@@ -46,6 +56,9 @@ const Replies = ({ navigation, route }: Props) => {
       <FlatList
         listKey="2"
         data={answer?.replies}
+        ListEmptyComponent={
+          loading ? <ActivityIndicator /> : <NoData text="No replies" />
+        }
         renderItem={(item) => (
           <Reply
             data={item.item}
@@ -53,23 +66,10 @@ const Replies = ({ navigation, route }: Props) => {
           />
         )}
       />
-      <TextInput
-        value={replyBody}
-        onChangeText={(e) => setReplyBody(e)}
-        theme={{ roundness: 5 }}
-        style={styles.textInput}
-        mode="outlined"
-        activeOutlineColor="#afb2b8"
-        autoFocus={focus}
-        outlineColor="#D7D9DD"
-        placeholder="Reply"
-        placeholderTextColor="#95979b"
-        right={
-          <TextInput.Icon
-            onPress={handleReply}
-            icon="share"
-          />
-        }
+      <ReplyInput
+        answerId={answerId}
+        focus={focus || false}
+        postId={postId}
       />
     </>
   );
@@ -82,10 +82,5 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-  },
-  textInput: {
-    margin: 10,
-    borderRadius: 5,
-    backgroundColor: "#D7D9DD",
   },
 });
