@@ -32,8 +32,6 @@ const AnswerInput = ({ postId }: props) => {
       body: answerBody,
       postId,
     });
-    // dispatch(answerQuestion({ answerBody, postId }));
-    // setAnswerBody("");
   };
 
   useEffect(() => {
@@ -61,6 +59,7 @@ const AnswerInput = ({ postId }: props) => {
         placeholder="Answer"
       />
       <IconButton
+        disabled={loading}
         size={20}
         style={styles.replyButton}
         icon="reply"

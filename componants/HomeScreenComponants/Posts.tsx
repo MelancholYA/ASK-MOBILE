@@ -2,13 +2,19 @@ import { StyleSheet, FlatList, View, RefreshControl } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { setPosts, setPostsToDisplay } from "../../redux/slices/postsSlice";
+import {
+  clearPosts,
+  setPosts,
+  setPostsToDisplay,
+} from "../../redux/slices/postsSlice";
 import CustomText from "../Gloabls/CustomText";
 import PostCard from "./PostCard";
 import useFetch from "../../helpers/useFetch";
 import { ActivityIndicator, Button } from "react-native-paper";
 
 type Props = {};
+
+//todo pagination to answers + replies length
 
 export const NoData = ({ text }: { text: string }) => {
   return (
@@ -33,12 +39,19 @@ export const NoData = ({ text }: { text: string }) => {
 const Posts = (props: Props) => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
-  const [hasNextPage, sethasNextPage] = useState(true);
+  const [hasNextPage, sethasNextPage] = useState(false);
   const { postsToDisplay } = useSelector((state: RootState) => state.posts);
 
   const { clearData, data, getData, loading } = useFetch();
 
+  const refresh = () => {
+    dispatch(clearPosts());
+    setPage(1);
+    getData("posts/" + 1);
+  };
+
   useEffect(() => {
+    console.log("changer");
     getData("posts/" + page);
   }, [page]);
 
@@ -48,22 +61,33 @@ const Posts = (props: Props) => {
       dispatch(setPosts(data.data.posts));
       sethasNextPage(data.data.hasNextPage);
     }
+    return () => clearData();
   }, [data]);
-  console.log(data);
+
   return (
     <FlatList
-      ListEmptyComponent={<NoData text="No posts are available" />}
+      refreshControl={
+        <RefreshControl
+          refreshing={loading}
+          onRefresh={refresh}
+        />
+      }
+      ListEmptyComponent={
+        !loading ? <NoData text="No questions are available" /> : null
+      }
       ListFooterComponent={
-        hasNextPage ? (
-          <ActivityIndicator />
-        ) : (
-          <CustomText
-            bold
-            style={{ textAlign: "center", padding: 12 }}
-          >
-            No more questions
-          </CustomText>
-        )
+        postsToDisplay.length ? (
+          loading ? (
+            <ActivityIndicator />
+          ) : (
+            <CustomText
+              color="grey"
+              style={{ textAlign: "center", padding: 12 }}
+            >
+              No more questions
+            </CustomText>
+          )
+        ) : null
       }
       onEndReached={() => {
         if (hasNextPage) {

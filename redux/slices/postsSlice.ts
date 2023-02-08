@@ -11,6 +11,7 @@ export interface Ianswer {
     firstName: string;
     lastName: string;
   };
+  repliesLength: number;
   replies?: [
     {
       _id: string;
@@ -51,6 +52,7 @@ interface IanswerBody {
   _id: string;
   postId: string;
   body: string;
+  repliesLength: number;
   user: {
     avatar: string;
     _id: string;
@@ -149,12 +151,32 @@ export const postsSlice = createSlice({
       state,
       action: PayloadAction<{ postId: string; answers: Ianswer[] }>
     ) => {
-      state.posts.map((post) => {
-        if (post._id === action.payload.postId) {
-          post.answers = action.payload.answers;
-        }
-        return post;
-      });
+      return {
+        ...state,
+        posts: state.posts.map((post, i) => {
+          if (post._id === action.payload.postId) {
+            return {
+              ...post,
+              answers: [...(post.answers || []), ...action.payload.answers],
+            };
+          }
+          return post;
+        }),
+      };
+    },
+    clearAnswers: (state, action: PayloadAction<{ postId: string }>) => {
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post._id === action.payload.postId ? { ...post, answers: [] } : post
+        ),
+      };
+    },
+    clearPosts: (state) => {
+      return {
+        ...state,
+        posts: [],
+      };
     },
   },
 });
@@ -167,6 +189,8 @@ export const {
   addPost,
   deletePost,
   addAnswers,
+  clearAnswers,
+  clearPosts,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

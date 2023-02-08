@@ -65,7 +65,13 @@ const Answer = ({ data, postId }: Props) => {
           }
           style={{ marginLeft: -15 }}
         >
-          View 4 replies
+          <CustomText>
+            {data.repliesLength === 1
+              ? "view 1 reply"
+              : data.repliesLength > 1
+              ? "View" + data.repliesLength + "replies"
+              : "No replies"}
+          </CustomText>
         </Button>
       </View>
     </View>

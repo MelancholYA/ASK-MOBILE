@@ -5,6 +5,7 @@ import { Avatar, TextInput } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import CustomText from "../../componants/Gloabls/CustomText";
 import Reply from "../../componants/RepliesScreenComponants/Reply";
+import useFetch from "../../helpers/useFetch";
 import { RootStackParamList } from "../../navigation/Stack";
 import { replyToAnswer } from "../../redux/slices/postsSlice";
 import { RootState } from "../../redux/store";
@@ -12,6 +13,7 @@ import { RootState } from "../../redux/store";
 type Props = NativeStackScreenProps<RootStackParamList, "Replies">;
 
 const Replies = ({ navigation, route }: Props) => {
+  const { clearData, data, loading, postData } = useFetch();
   const [replyBody, setReplyBody] = useState("");
   const dispatch = useDispatch();
   const { postId, answerId, focus } = route.params;
