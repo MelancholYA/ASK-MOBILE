@@ -1,20 +1,39 @@
 import { View, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Filter from "../../componants/Gloabls/Filter";
 import GroupsContainer from "../../componants/GroupsScreenComponants/GroupsContainer";
-import { FAB } from "react-native-paper";
+import { ActivityIndicator, FAB } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/Stack";
+import useFetch from "../../helpers/useFetch";
+import { useDispatch } from "react-redux";
+import { setGroups } from "../../redux/slices/groupsSlice";
 
 interface Props extends NativeStackScreenProps<RootStackParamList, "Groups"> {}
 
 const Groups = (props: Props) => {
+  const dispatch = useDispatch();
+
+  const { clearData, data, getData, loading } = useFetch();
+
+  useEffect(() => {
+    getData("groups");
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setGroups(data.data.groups));
+    }
+    return () => clearData();
+  }, [data]);
+
   return (
     <View style={styles.container}>
       <Filter
         shadow
         Case="groupFilterChips"
       />
+      {loading && <ActivityIndicator />}
       <GroupsContainer />
       <FAB
         theme={{ roundness: 100 }}

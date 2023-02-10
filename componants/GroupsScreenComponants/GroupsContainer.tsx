@@ -29,7 +29,7 @@ const GroupsContainer = (props: Props) => {
       renderItem={(item) => (
         <GroupCard
           data={item.item}
-          key={item.item.id}
+          key={item.item._id}
         />
       )}
     />

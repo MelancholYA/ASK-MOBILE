@@ -16,19 +16,16 @@ import { ActivityIndicator, Banner, FAB } from "react-native-paper";
 type Props = NativeStackScreenProps<RootStackParamList, "Group">;
 
 const Group = ({ route, navigation }: Props) => {
+  const { clearData, data, getData, loading } = useFetch();
   const id = route.params.groupId;
   let group = useSelector((state: RootState) => state.groups.groups).filter(
-    (group) => group.id === id
+    (group) => group._id === id
   )[0];
-  const [{ data, isLoading, isError }] = useFetch(
-    "https://api.example.com/data",
-    {}
-  );
-  const [showBanner, setShowBanner] = useState(isLoading || isError);
+
   return (
     <>
       <StatusBar backgroundColor="#303030" />
-      <Banner
+      {/* <Banner
         visible={showBanner}
         actions={[
           {
@@ -47,7 +44,7 @@ const Group = ({ route, navigation }: Props) => {
             </CustomText>
           )
         )}
-      </Banner>
+      </Banner> */}
       {!group ? (
         <NoData text="Something went wrong , check your connection or reload the app" />
       ) : (
@@ -57,7 +54,14 @@ const Group = ({ route, navigation }: Props) => {
             group={group}
           />
           <View style={styles.container}>
-            <CustomText color="white">{group?.members} Members</CustomText>
+            <CustomText color="white">
+              {" "}
+              {group.membersLength === 0
+                ? "No Members"
+                : group.membersLength > 1
+                ? group.membersLength + " members"
+                : "1 member"}
+            </CustomText>
             <View style={styles.divider}></View>
             <CustomText color="white">
               {group?.postsLength} Questions
@@ -86,7 +90,7 @@ const Group = ({ route, navigation }: Props) => {
               <PostCard
                 footerless={!group.joined}
                 post={item.item}
-                key={item.item.id}
+                key={item.item._id}
               />
             )}
           />

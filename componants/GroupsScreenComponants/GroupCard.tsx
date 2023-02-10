@@ -29,11 +29,11 @@ const GroupCard = ({ data }: Props) => {
       }}
     >
       <Pressable
-        onPress={() => navigate.navigate("Group", { groupId: data.id })}
+        onPress={() => navigate.navigate("Group", { groupId: data._id })}
       >
         <ImageBackground
           style={{ aspectRatio: 16 / 6 }}
-          source={data.background ? { uri: data.background } : texture}
+          source={data.cover ? { uri: data.cover } : texture}
         >
           <View style={styles.container}>
             <View style={styles.header}>
@@ -73,7 +73,11 @@ const GroupCard = ({ data }: Props) => {
                 style={{ marginLeft: "auto" }}
                 color="white"
               >
-                {data.members} members
+                {data.membersLength === 0
+                  ? "No Members"
+                  : data.membersLength > 1
+                  ? data.membersLength + " members"
+                  : "1 member"}
               </CustomText>
             </View>
 

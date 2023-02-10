@@ -1,20 +1,17 @@
-import { StyleSheet, FlatList, View, RefreshControl } from "react-native";
 import React, { useEffect, useState } from "react";
+import { StyleSheet, FlatList, View, RefreshControl } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import {
-  clearPosts,
-  setPosts,
-  setPostsToDisplay,
-} from "../../redux/slices/postsSlice";
-import CustomText from "../Gloabls/CustomText";
+import { ActivityIndicator } from "react-native-paper";
+
 import PostCard from "./PostCard";
+import CustomText from "../Gloabls/CustomText";
+
+import { clearPosts, setPosts } from "../../redux/slices/postsSlice";
+import { RootState } from "../../redux/store";
+
 import useFetch from "../../helpers/useFetch";
-import { ActivityIndicator, Button } from "react-native-paper";
 
 type Props = {};
-
-//todo pagination to answers + replies length
 
 export const NoData = ({ text }: { text: string }) => {
   return (

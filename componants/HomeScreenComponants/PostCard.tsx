@@ -11,6 +11,7 @@ import { chipStyle } from "../Gloabls/Filter";
 import { RootStackParamList } from "../../navigation/Stack";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { Easing } from "react-native-reanimated";
 
 type Props = {
   post: Ipost;

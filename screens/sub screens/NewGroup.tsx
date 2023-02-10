@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   ImageBackground,
@@ -19,6 +19,8 @@ import { addGroup, Igroup } from "../../redux/slices/groupsSlice";
 import { texture } from "../Main screens/Welcome";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ImagePickerAsset } from "expo-image-picker/build/ImagePicker.types";
+import useFetch from "../../helpers/useFetch";
+import axios from "axios";
 
 type Props = NativeStackScreenProps<RootStackParamList, "NewGroup">;
 
@@ -32,34 +34,55 @@ type groupBody = {
 
 const NewGroup = ({ navigation }: Props) => {
   const { openNotification } = useNotification();
+  const { clearData, data, loading, postData } = useFetch();
   const dispatch = useDispatch();
   const [groupBody, setGroupBody] = useState<groupBody>({
     description: "",
     name: "",
-    topic: "",
+    topic: "General",
   });
 
-  const submit = () => {
+  const submit = async () => {
     if (!groupBody.name || !groupBody.description) {
       openNotification("Please fill the name and description");
       return;
     }
-    //call api with data
-    let responseBody: Igroup = {
-      description: groupBody.description,
-      id: "some id 1",
-      members: 0,
+    const formData = new FormData();
+    if (groupBody.avatar && groupBody.background) {
+      const coverObj = {
+        uri: groupBody.avatar.uri,
+        type: "image/jpeg",
+        name: groupBody.avatar.uri.split("/").pop(),
+      } as unknown as Blob;
+      const avatarObj = {
+        uri: groupBody.avatar.uri,
+        type: "image/jpeg",
+        name: groupBody.avatar.uri.split("/").pop(),
+      } as unknown as Blob;
+      formData.append("cover", coverObj);
+      formData.append("avatar", avatarObj);
+    }
+    const body = {
       name: groupBody.name,
+      description: groupBody.description,
       topic: groupBody.topic,
-      avatar: groupBody.avatar?.uri,
-      background: groupBody.background?.uri,
-      joined: true,
-      posts: [],
-      postsLength: 0,
     };
-    dispatch(addGroup(responseBody));
-    navigation.navigate("Group", { groupId: "some id 1" });
+    Object.entries(body).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    console.log({ formData });
+
+    postData("groups/new", formData, true);
   };
+
+  useEffect(() => {
+    if (data) {
+      dispatch(addGroup(data.data.group));
+      navigation.navigate("Groups");
+    }
+    return () => clearData();
+  }, [data]);
+  console.log({ loading });
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="white" />

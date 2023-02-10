@@ -27,7 +27,7 @@ const ImagePicker = ({ setImage, style, aspect, size }: Props) => {
 
   const pickImage = async () => {
     let result = await launchImageLibraryAsync({
-      mediaTypes: MediaTypeOptions.All,
+      mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
       aspect,
       quality: 0.5,
