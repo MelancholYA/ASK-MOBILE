@@ -40,7 +40,6 @@ const EditProfile = (props: Props) => {
   };
   const save = () => {
     if (JSON.stringify(user) === JSON.stringify(userData)) {
-      console.log("same");
       return;
     }
     const emailChanged = user?.email !== userData?.email;
@@ -50,7 +49,6 @@ const EditProfile = (props: Props) => {
       setVisible(true);
       return;
     }
-    console.log("no changes");
     submitData();
   };
 

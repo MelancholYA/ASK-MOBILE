@@ -2,30 +2,25 @@ import { View, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import Filter from "../../componants/Gloabls/Filter";
 import GroupsContainer from "../../componants/GroupsScreenComponants/GroupsContainer";
-import { ActivityIndicator, FAB } from "react-native-paper";
+import { FAB } from "react-native-paper";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/Stack";
-import useFetch from "../../helpers/useFetch";
-import { useDispatch } from "react-redux";
-import { setGroups } from "../../redux/slices/groupsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { setGroupsToDisplay } from "../../redux/slices/groupsSlice";
 
 interface Props extends NativeStackScreenProps<RootStackParamList, "Groups"> {}
 
 const Groups = (props: Props) => {
   const dispatch = useDispatch();
-
-  const { clearData, data, getData, loading } = useFetch();
-
-  useEffect(() => {
-    getData("groups");
-  }, []);
+  const { groupsToDesplay, groups } = useSelector(
+    (state: RootState) => state.groups
+  );
+  const { groupFilterChips } = useSelector((state: RootState) => state.chips);
 
   useEffect(() => {
-    if (data) {
-      dispatch(setGroups(data.data.groups));
-    }
-    return () => clearData();
-  }, [data]);
+    dispatch(setGroupsToDisplay(groupFilterChips));
+  }, [groupFilterChips, groups]);
 
   return (
     <View style={styles.container}>
@@ -33,8 +28,7 @@ const Groups = (props: Props) => {
         shadow
         Case="groupFilterChips"
       />
-      {loading && <ActivityIndicator />}
-      <GroupsContainer />
+      <GroupsContainer groupsToDesplay={groupsToDesplay} />
       <FAB
         theme={{ roundness: 100 }}
         onPress={() => props.navigation.navigate("NewGroup")}

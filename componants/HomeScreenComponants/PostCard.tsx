@@ -28,7 +28,6 @@ const Post = ({ post, footerless }: Props) => {
   const goToProfile = () => {
     const id = user?._id;
     const authorId = post.user._id;
-    console.log({ id, authorId, user });
     if (id === authorId) {
       navigation.navigate("Profile");
     } else {

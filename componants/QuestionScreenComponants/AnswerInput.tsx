@@ -19,7 +19,6 @@ const AnswerInput = ({ postId }: props) => {
   const { clearData, data, loading, postData } = useFetch();
 
   const answer = () => {
-    console.log(user);
     if (!user) {
       return;
     }
@@ -36,18 +35,17 @@ const AnswerInput = ({ postId }: props) => {
 
   useEffect(() => {
     if (data) {
-      console.log({ gg: data });
       dispatch(
         answerQuestion({
           _id: data.data.answer._id,
           body: data.data.answer.body,
           postId: data.data.answer.post,
           user: data.data.answer.user,
-          repliesLength:data.data.answer.repliesLength
+          repliesLength: data.data.answer.repliesLength,
         })
       );
       setAnswerBody("");
-      console.log({ data });
+      clearData();
     }
   }, [data]);
 

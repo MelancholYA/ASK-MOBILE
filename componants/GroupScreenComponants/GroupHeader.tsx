@@ -4,8 +4,9 @@ import {
   View,
   StatusBar,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Appbar, Avatar, FAB, IconButton, Menu } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,6 +18,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Igroup, joinGroup, leaveGroup } from "../../redux/slices/groupsSlice";
 import { RootStackParamList } from "../../navigation/Stack";
 import CustomImageBackground from "../Gloabls/CustomImageBackground";
+import { BASE_URL } from "@env";
+import useFetch from "../../helpers/useFetch";
 
 type Props = {
   group: Igroup;
@@ -68,21 +71,37 @@ const GroupMenu = ({
 };
 
 const GroupHeader = ({ group, navigation }: Props) => {
+  const { clearData, data, postData, loading } = useFetch();
   const dispatch = useDispatch();
   const chip = useSelector((state: RootState) => state.chips.chips).filter(
     (chip) => chip.label === group.topic
   )[0];
 
   const join = () => {
-    dispatch(joinGroup({ groupId: group.id }));
+    postData("groups/" + group._id + "/join", null);
   };
   const leave = () => {
-    dispatch(leaveGroup({ groupId: group.id }));
+    postData("groups/" + group._id + "/leave", null);
   };
+
+  useEffect(() => {
+    if (data) {
+      if (data.data.group.joined) {
+        dispatch(joinGroup({ groupId: group._id }));
+      } else {
+        dispatch(leaveGroup({ groupId: group._id }));
+      }
+    }
+    clearData();
+  }, [data]);
 
   return (
     <ImageBackground
-      source={group.background ? { uri: group.background } : texture}
+      source={
+        group.cover
+          ? { uri: BASE_URL.replace("/api/", "") + group.cover }
+          : texture
+      }
     >
       <View style={styles.container}>
         <View style={styles.header}>
@@ -94,7 +113,11 @@ const GroupHeader = ({ group, navigation }: Props) => {
           <View style={styles.avatarContainer}>
             <CustomImageBackground
               style={styles.headerAvatar}
-              source={group.avatar ? { uri: group.avatar } : texture}
+              source={
+                group.avatar
+                  ? { uri: BASE_URL.replace("/api/", "") + group.avatar }
+                  : texture
+              }
             />
           </View>
         </View>
@@ -113,11 +136,13 @@ const GroupHeader = ({ group, navigation }: Props) => {
               size={15}
             />
             <View style={{ marginLeft: "auto" }}>
-              {group.joined ? (
+              {loading ? (
+                <ActivityIndicator />
+              ) : group.joined ? (
                 <GroupMenu
                   leave={leave}
                   invite={() =>
-                    navigation.navigate("InviteAfriend", { groupId: group.id })
+                    navigation.navigate("InviteAfriend", { groupId: group._id })
                   }
                 />
               ) : (

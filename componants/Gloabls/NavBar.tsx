@@ -64,7 +64,7 @@ const NavBar = ({ props }: Props) => {
           <CustomText
             variant="labelSmall"
             style={{
-              fontFamily: "Montserrat-light",
+              fontSize: 10,
               color:
                 button.title === props.route.name
                   ? theme.colors.secondary

@@ -48,12 +48,10 @@ const Posts = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log("changer");
     getData("posts/" + page);
   }, [page]);
 
   useEffect(() => {
-    console.log({ data });
     if (data) {
       dispatch(setPosts(data.data.posts));
       sethasNextPage(data.data.hasNextPage);

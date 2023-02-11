@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useNavigation } from "@react-navigation/native";
 import { useNavigationProp } from "../HomeScreenComponants/PostCard";
+import { BASE_URL } from "@env";
 
 type Props = {
   data: Igroup;
@@ -33,13 +34,21 @@ const GroupCard = ({ data }: Props) => {
       >
         <ImageBackground
           style={{ aspectRatio: 16 / 6 }}
-          source={data.cover ? { uri: data.cover } : texture}
+          source={
+            data.cover
+              ? { uri: BASE_URL.replace("/api/", "") + data.cover }
+              : texture
+          }
         >
           <View style={styles.container}>
             <View style={styles.header}>
               <Avatar.Image
                 size={55}
-                source={data.avatar ? { uri: data.avatar } : texture}
+                source={
+                  data.avatar
+                    ? { uri: BASE_URL.replace("/api/", "") + data.avatar }
+                    : texture
+                }
               />
               <View
                 style={{

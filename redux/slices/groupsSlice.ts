@@ -57,7 +57,11 @@ export const grouspSlice = createSlice({
     joinGroup: (state, action: PayloadAction<{ groupId: string }>) => {
       state.groups = [...state.groups].map((group) => {
         if (group._id === action.payload.groupId) {
-          return { ...group, joined: true };
+          return {
+            ...group,
+            joined: true,
+            membersLength: group.membersLength + 1,
+          };
         }
         return group;
       });
@@ -65,7 +69,11 @@ export const grouspSlice = createSlice({
     leaveGroup: (state, action: PayloadAction<{ groupId: string }>) => {
       state.groups = [...state.groups].map((group) => {
         if (group._id === action.payload.groupId) {
-          return { ...group, joined: false };
+          return {
+            ...group,
+            joined: false,
+            membersLength: group.membersLength - 1,
+          };
         }
         return group;
       });
@@ -73,6 +81,12 @@ export const grouspSlice = createSlice({
     addGroup: (state, action: PayloadAction<Igroup>) => {
       state.groups.unshift(action.payload);
       return state;
+    },
+    clearGroups: (state) => {
+      return {
+        ...state,
+        groups: [],
+      };
     },
   },
 });
@@ -84,6 +98,7 @@ export const {
   joinGroup,
   leaveGroup,
   addGroup,
+  clearGroups,
 } = grouspSlice.actions;
 
 export default grouspSlice.reducer;

@@ -1,30 +1,80 @@
-import { FlatList } from "react-native";
-import React, { useEffect } from "react";
+import { FlatList, RefreshControl } from "react-native";
+import React, { useEffect, useState } from "react";
 import { NoData } from "../HomeScreenComponants/Posts";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { setGroupsToDisplay } from "../../redux/slices/groupsSlice";
+import {
+  clearGroups,
+  Igroup,
+  setGroups,
+  setGroupsToDisplay,
+} from "../../redux/slices/groupsSlice";
 import GroupCard from "./GroupCard";
+import useFetch from "../../helpers/useFetch";
+import { ActivityIndicator } from "react-native-paper";
+import CustomText from "../Gloabls/CustomText";
 
-type Props = {};
+type Props = {
+  groupsToDesplay: Igroup[];
+};
 
-const GroupsContainer = (props: Props) => {
+const GroupsContainer = ({ groupsToDesplay }: Props) => {
   const dispatch = useDispatch();
-  const { groupsToDesplay, groups } = useSelector(
-    (state: RootState) => state.groups
-  );
-  const { groupFilterChips } = useSelector((state: RootState) => state.chips);
+  const { clearData, data, getData, loading } = useFetch();
+  const [page, setPage] = useState(1);
+  const [hasNextPage, sethasNextPage] = useState(false);
+
   useEffect(() => {
-    dispatch(setGroupsToDisplay(groupFilterChips));
-  }, [groupFilterChips, groups]);
+    getData("groups/" + page);
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setGroups(data.data.groups));
+      sethasNextPage(data.data.hasNextPage);
+    }
+    return () => clearData();
+  }, [data]);
+
+  const refresh = () => {
+    dispatch(clearGroups());
+    setPage(1);
+    getData("groups/" + 1);
+  };
 
   return (
     <FlatList
-      ListEmptyComponent={<NoData text="No groups are available" />}
-      onEndReached={() => console.log("end")}
       data={groupsToDesplay}
       contentContainerStyle={{
         paddingHorizontal: 10,
+      }}
+      refreshControl={
+        <RefreshControl
+          refreshing={loading}
+          onRefresh={refresh}
+        />
+      }
+      ListEmptyComponent={
+        !loading ? <NoData text="No Groups Are Available" /> : null
+      }
+      ListFooterComponent={
+        groupsToDesplay.length ? (
+          loading ? (
+            <ActivityIndicator />
+          ) : (
+            <CustomText
+              color="grey"
+              style={{ textAlign: "center", padding: 12 }}
+            >
+              No More Groups
+            </CustomText>
+          )
+        ) : null
+      }
+      onEndReached={() => {
+        if (hasNextPage) {
+          setPage(page + 1);
+        }
       }}
       renderItem={(item) => (
         <GroupCard

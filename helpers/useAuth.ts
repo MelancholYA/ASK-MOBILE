@@ -68,16 +68,13 @@ const useAuth = () => {
           );
           dispatch(setToken(res.data.token));
           dispatch(setUser(res.data.user));
-          console.log({ res });
           setLoading(false);
         } catch (error) {
-          console.log({ error });
           openNotification(errMessage(error));
           setLoading(false);
         }
       })
       .catch((err) => {
-        console.log(err);
         openNotification(errMessage(err));
         setLoading(false);
       });
@@ -117,13 +114,11 @@ const useAuth = () => {
           dispatch(setUser(res.data.user));
           setLoading(false);
         } catch (error) {
-          console.log({ error });
           openNotification(errMessage(error));
           setLoading(false);
         }
       })
       .catch((err) => {
-        console.log(err);
         openNotification(errMessage(err));
         setLoading(false);
       });

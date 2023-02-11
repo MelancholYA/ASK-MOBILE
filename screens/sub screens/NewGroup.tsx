@@ -70,7 +70,6 @@ const NewGroup = ({ navigation }: Props) => {
     Object.entries(body).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    console.log({ formData });
 
     postData("groups/new", formData, true);
   };
@@ -82,7 +81,6 @@ const NewGroup = ({ navigation }: Props) => {
     }
     return () => clearData();
   }, [data]);
-  console.log({ loading });
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="white" />
