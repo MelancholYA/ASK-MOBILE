@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, FlatList, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  StatusBar,
+  RefreshControl,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 
@@ -16,11 +22,32 @@ import { ActivityIndicator, Banner, FAB } from "react-native-paper";
 type Props = NativeStackScreenProps<RootStackParamList, "Group">;
 
 const Group = ({ route, navigation }: Props) => {
-  const { clearData, data, getData, loading } = useFetch();
   const id = route.params.groupId;
+  const [page, setPage] = useState(1);
+  const [hasNextPage, sethasNextPage] = useState(false);
+  const { clearData, data, getData, loading } = useFetch();
   let group = useSelector((state: RootState) => state.groups.groups).filter(
     (group) => group._id === id
   )[0];
+
+  const refresh = () => {
+    // dispatch(clearPosts());
+    setPage(1);
+    getData("posts/" + 1);
+  };
+
+  useEffect(() => {
+    getData("posts/" + id + "/" + page);
+  }, [page]);
+
+  useEffect(() => {
+    if (data) {
+      //dispatch(setPosts(data.data.posts));
+      console.log({ data });
+      sethasNextPage(data.data.hasNextPage);
+    }
+    return () => clearData();
+  }, [data]);
 
   return (
     <>
@@ -83,9 +110,36 @@ const Group = ({ route, navigation }: Props) => {
           )}
 
           <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={refresh}
+              />
+            }
+            ListEmptyComponent={
+              !loading ? <NoData text="No questions are available" /> : null
+            }
+            ListFooterComponent={
+              group.posts?.length ? (
+                loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <CustomText
+                    color="grey"
+                    style={{ textAlign: "center", padding: 12 }}
+                  >
+                    No more questions
+                  </CustomText>
+                )
+              ) : null
+            }
+            onEndReached={() => {
+              if (hasNextPage) {
+                setPage(page + 1);
+              }
+            }}
             style={{ padding: 10 }}
             data={group.posts}
-            ListEmptyComponent={<NoData text="No posts in this group yet" />}
             renderItem={(item) => (
               <PostCard
                 footerless={!group.joined}

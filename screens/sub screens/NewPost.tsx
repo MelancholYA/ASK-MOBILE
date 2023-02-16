@@ -41,16 +41,19 @@ const NewPost = ({ navigation, route }: Props) => {
     const body: { body: string; chip: Ichip; group?: string } = {
       body: question.body,
       chip,
+      group: groupId,
     };
-    if (groupId && groupName) {
+    if (groupId) {
       body.group = groupId;
     }
-    postData("posts/new", body);
+    postData("posts/new", body, false);
   };
 
   useEffect(() => {
     if (data) {
-      dispatch(addPost(data.data.post));
+      dispatch(
+        addPost({ ...data.data.post, group: { id: groupId, name: groupName } })
+      );
       clearData();
       navigation.navigate("Home");
     }

@@ -86,6 +86,7 @@ const GroupHeader = ({ group, navigation }: Props) => {
 
   useEffect(() => {
     if (data) {
+      console.log(data.data);
       if (data.data.group.joined) {
         dispatch(joinGroup({ groupId: group._id }));
       } else {
@@ -137,7 +138,7 @@ const GroupHeader = ({ group, navigation }: Props) => {
             />
             <View style={{ marginLeft: "auto" }}>
               {loading ? (
-                <ActivityIndicator />
+                <ActivityIndicator color="white" />
               ) : group.joined ? (
                 <GroupMenu
                   leave={leave}

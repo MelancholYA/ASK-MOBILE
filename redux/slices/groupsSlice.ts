@@ -32,6 +32,12 @@ export const grouspSlice = createSlice({
   reducers: {
     setGroups: (state, action: PayloadAction<Igroup[]>) => {
       const groups = state.groups.slice();
+      const isExisting = groups.some((item1) =>
+        action.payload.some((item2) => item1._id === item2._id)
+      );
+      if (isExisting) {
+        return { ...state, groups: action.payload };
+      }
       groups.push(...action.payload);
       return { ...state, groups };
     },

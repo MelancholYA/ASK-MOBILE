@@ -15,14 +15,18 @@ const useFetch = () => {
   const clearData = () => setData(null);
 
   const postData = (url: string, data: any, formdata?: boolean) => {
+    const headers: any = {
+      "x-auth-token": token,
+    };
+    if (formdata) {
+      headers["Content-Type"] = "multipart/form-data";
+    }
+
     setLoading(true);
+
     axios
       .post(BASE_URL + url, data, {
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "multipart/form-data",
-          "x-auth-token": token,
-        },
+        headers: headers,
       })
       .then((res) => {
         setData(res);
